@@ -4,7 +4,48 @@ const router = express.Router();
 const User = require('../models/User');
 const { getClerkUserData } = require('../utils/clerkHelper');
 
-// Get current user profile
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: User management and profile operations
+ */
+
+/**
+ * @swagger
+ * /api/users/profile:
+ *   get:
+ *     summary: Get current user profile
+ *     description: Retrieves the authenticated user's profile information. Creates a new user record if this is the first login.
+ *     tags: [Users]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: User profile retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 user:
+ *                   $ref: '#/components/schemas/UserProfile'
+ *       401:
+ *         description: Unauthorized - Invalid or missing authentication token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
 router.get('/profile', requireAuth(), async (req, res) => {
   try {
     const auth = req.auth();
@@ -68,7 +109,75 @@ router.get('/profile', requireAuth(), async (req, res) => {
   }
 });
 
-// Update user profile
+/**
+ * @swagger
+ * /api/users/profile:
+ *   put:
+ *     summary: Update user profile
+ *     description: Updates the authenticated user's profile information (firstName and lastName)
+ *     tags: [Users]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UpdateUserRequest'
+ *     responses:
+ *       200:
+ *         description: User profile updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       example: '507f1f77bcf86cd799439011'
+ *                     firstName:
+ *                       type: string
+ *                       example: 'John'
+ *                     lastName:
+ *                       type: string
+ *                       example: 'Doe'
+ *                     email:
+ *                       type: string
+ *                       example: 'user@nirvanaclub.com'
+ *                     profileImage:
+ *                       type: string
+ *                       example: 'https://images.clerk.dev/oauth_google/img_example'
+ *       400:
+ *         description: Bad request - Invalid input data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       401:
+ *         description: Unauthorized - Invalid or missing authentication token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       404:
+ *         description: User not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
 router.put('/profile', requireAuth(), async (req, res) => {
   try {
     const auth = req.auth();
@@ -104,7 +213,50 @@ router.put('/profile', requireAuth(), async (req, res) => {
   }
 });
 
-// Refresh user data from Clerk
+/**
+ * @swagger
+ * /api/users/refresh:
+ *   post:
+ *     summary: Refresh user data from Clerk
+ *     description: Fetches the latest user data from Clerk API and updates the MongoDB record
+ *     tags: [Users]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: User data refreshed successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: 'User data refreshed successfully'
+ *                 user:
+ *                   $ref: '#/components/schemas/UserProfile'
+ *       400:
+ *         description: Bad request - Could not fetch user data from Clerk
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       401:
+ *         description: Unauthorized - Invalid or missing authentication token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
 router.post('/refresh', requireAuth(), async (req, res) => {
   try {
     const auth = req.auth();
@@ -155,7 +307,47 @@ router.post('/refresh', requireAuth(), async (req, res) => {
   }
 });
 
-// Get all users
+/**
+ * @swagger
+ * /api/users/all:
+ *   get:
+ *     summary: Get all users
+ *     description: Retrieves a list of all registered users (requires authentication)
+ *     tags: [Users]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Users retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 users:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/User'
+ *                 count:
+ *                   type: integer
+ *                   description: Total number of users
+ *                   example: 25
+ *       401:
+ *         description: Unauthorized - Invalid or missing authentication token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
 router.get('/all', requireAuth(), async (req, res) => {
   try {
     const users = await User.find()

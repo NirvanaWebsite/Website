@@ -4,6 +4,9 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const { clerkMiddleware, requireAuth } = require('@clerk/express');
 
+// Import Swagger configuration
+const { specs, swaggerUi, swaggerOptions } = require('./config/swagger');
+
 // Import middleware
 const logger = require('./middleware/logger');
 const errorHandler = require('./middleware/errorHandler');
@@ -32,7 +35,26 @@ if (process.env.CLERK_SECRET_KEY) {
   });
 }
 
+// Swagger Documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs, swaggerOptions));
+
 // Routes
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     summary: Get API information
+ *     description: Returns basic information about the Nirvana Club API
+ *     tags: [General]
+ *     security: []
+ *     responses:
+ *       200:
+ *         description: API information retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ApiInfo'
+ */
 app.get('/', (req, res) => {
   res.json({
     message: 'Nirvana Club Backend API',
@@ -40,11 +62,28 @@ app.get('/', (req, res) => {
     status: 'running',
     endpoints: {
       users: '/api/users',
-      health: '/api/health'
+      health: '/api/health',
+      docs: '/api-docs'
     }
   });
 });
 
+/**
+ * @swagger
+ * /api/health:
+ *   get:
+ *     summary: Health check endpoint
+ *     description: Returns the current health status of the API and database connection
+ *     tags: [Health]
+ *     security: []
+ *     responses:
+ *       200:
+ *         description: Health status retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/HealthCheck'
+ */
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'healthy',
@@ -57,7 +96,44 @@ app.get('/api/health', (req, res) => {
 // API Routes
 app.use('/api/users', userRoutes);
 
-// Legacy protected route for testing
+/**
+ * @swagger
+ * /api/protected:
+ *   get:
+ *     summary: Test protected route
+ *     description: A test endpoint to verify authentication is working correctly
+ *     tags: [Authentication]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Authentication successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: 'You are accessing a protected route!'
+ *                 userId:
+ *                   type: string
+ *                   example: 'user_2NNEqL2nrIRdJ194ndJqAHgEfxC'
+ *                 timestamp:
+ *                   type: string
+ *                   format: date-time
+ *                   example: '2024-01-15T10:30:00.000Z'
+ *       401:
+ *         description: Unauthorized - Invalid or missing authentication token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: 'Unauthorized'
+ */
 app.get('/api/protected', (req, res) => {
     if (req.auth) {
         res.json({ 
@@ -100,4 +176,5 @@ app.listen(port, () => {
   console.log(`🚀 Nirvana Club Backend running on port: ${port}`);
   console.log(`🌐 API Base URL: http://localhost:${port}`);
   console.log(`📋 Health Check: http://localhost:${port}/api/health`);
+  console.log(`📚 API Documentation: http://localhost:${port}/api-docs`);
 });
