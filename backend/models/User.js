@@ -8,15 +8,21 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: true
+    required: true,
+    index: true,
+    default: function() {
+      return `user_${this.clerkId}@nirvanaclub.com`;
+    }
   },
   firstName: {
     type: String,
-    required: true
+    required: true,
+    default: 'User'
   },
   lastName: {
     type: String,
-    required: true
+    required: true,
+    default: 'Member'
   },
   profileImage: {
     type: String,
@@ -26,7 +32,6 @@ const userSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Index for faster queries
-userSchema.index({ clerkId: 1 });
+// Indexes are now defined in the schema above
 
 module.exports = mongoose.model('User', userSchema);

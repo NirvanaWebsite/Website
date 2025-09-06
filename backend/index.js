@@ -84,10 +84,7 @@ app.use((req, res) => {
 // MongoDB Connection
 const MONGODB_URI = process.env.MONGODB_URI;
 if (MONGODB_URI) {
-  mongoose.connect(MONGODB_URI, { 
-    useNewUrlParser: true, 
-    useUnifiedTopology: true 
-  })
+  mongoose.connect(MONGODB_URI)
   .then(() => {
     console.log('✅ MongoDB connected successfully');
     console.log(`📊 Database: ${mongoose.connection.name}`);
