@@ -1,6 +1,9 @@
 import { SignedIn, SignedOut } from '@clerk/clerk-react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
+import About from './components/About'
+import Mission from './components/Mission'
+import Alumni from './components/Alumni'
 import Features from './components/Features'
 import Team from './components/Team'
 import Contact from './components/Contact'
@@ -14,6 +17,9 @@ function App() {
       
       <SignedOut>
         <Hero />
+        <About />
+        <Mission />
+        <Alumni />
         <Features />
         <Team />
         <Contact />
