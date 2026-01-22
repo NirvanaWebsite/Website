@@ -34,6 +34,7 @@
 - 👤 **Profile Management** - Edit and update user information seamlessly
 - 📊 **Activity Tracking** - View account activity and sync status
 - 🛡️ **Enterprise Security** - JWT authentication with proper validation
+- 🎭 **Role-Based Access** - Hierarchical role system for permission management
 
 </td>
 </tr>
@@ -258,15 +259,51 @@ All user endpoints require Clerk JWT authentication via `Authorization: Bearer <
 
 Multi-tab interface with real-time data sync, profile editing, and comprehensive user management.
 
+## 👥 **Role Hierarchy System**
+
+Nirvana Club implements a hierarchical role-based access control (RBAC) system to manage user permissions and privileges:
+
+```mermaid
+graph TD
+    A[🔴 SUPER_ADMIN] --> B[🟠 LEAD]
+    B --> C[🟡 CO_LEAD]
+    C --> D[🟢 DOMAIN_LEAD]
+    D --> E[🔵 MEMBER]
+    
+    style A fill:#dc2626,color:#fff
+    style B fill:#ff6b6b,color:#fff
+    style C fill:#ff8787,color:#fff
+    style D fill:#ffa94d,color:#000
+    style E fill:#94a3b8,color:#fff
+```
+
+### Role Descriptions
+
+| Role            | Level | Description                               | Key Permissions                                  |
+| --------------- | ----- | ----------------------------------------- | ------------------------------------------------ |
+| **SUPER_ADMIN** | 5     | Highest authority with full system access | All permissions, can promote to any role         |
+| **LEAD**        | 4     | Primary leadership role                   | User management, can promote up to LEAD          |
+| **CO_LEAD**     | 3     | Secondary leadership role                 | Similar to LEAD, can promote up to CO_LEAD       |
+| **DOMAIN_LEAD** | 2     | Domain-specific leadership                | Domain management, can promote up to DOMAIN_LEAD |
+| **MEMBER**      | 1     | Default user role                         | Basic access, view and interact                  |
+
+### Promotion Rules
+
+- Users can promote others **up to their own role level**
+- New users are assigned the **MEMBER** role by default
+- Role changes are logged for security and audit purposes
+- Higher roles inherit all permissions from lower roles
+
 ## 🔐 **Authentication & Data Flow**
 
-**Landing Page** → **Clerk Auth** → **Dashboard** → **MongoDB Sync**
+**Landing Page** → **Clerk Auth** → **Dashboard** → **MongoDB Sync** → **Role Assignment**
 
 1. **Authentication**: Choose Google, GitHub, or Email via Clerk
 2. **Dashboard Access**: Automatic redirect after successful login
 3. **Data Sync**: Creates/updates MongoDB user record with Clerk data
-4. **Profile Management**: Real-time sync between Clerk and MongoDB
-5. **Fallback Handling**: Graceful handling of incomplete data
+4. **Role Assignment**: New users automatically assigned MEMBER role
+5. **Profile Management**: Real-time sync between Clerk and MongoDB
+6. **Fallback Handling**: Graceful handling of incomplete data
 
 ## 🚀 **Deployment**
 
