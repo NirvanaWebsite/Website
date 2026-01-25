@@ -50,14 +50,14 @@ router.get('/profile', requireAuth(), async (req, res) => {
   try {
     const auth = req.auth();
     const { userId } = auth;
-    
+
     let user = await User.findOne({ clerkId: userId });
-    
+
     if (!user) {
       // Create user if doesn't exist (first time login)
       // Get user data from Clerk API
       const clerkUserData = await getClerkUserData(userId);
-      
+
       if (clerkUserData) {
         user = new User({
           clerkId: userId,
@@ -70,7 +70,7 @@ router.get('/profile', requireAuth(), async (req, res) => {
         // Fallback to session claims if API call fails
         const clerkUser = auth.sessionClaims;
         console.log('🔍 Fallback - Clerk Session Claims:', JSON.stringify(clerkUser, null, 2));
-        
+
         user = new User({
           clerkId: userId,
           email: clerkUser?.email || clerkUser?.email_addresses?.[0]?.email_address || `user_${userId}@nirvanaclub.com`,
@@ -79,7 +79,7 @@ router.get('/profile', requireAuth(), async (req, res) => {
           profileImage: clerkUser?.image_url || clerkUser?.picture || ''
         });
       }
-      
+
       console.log('💾 Creating user with data:', {
         clerkId: user.clerkId,
         email: user.email,
@@ -87,7 +87,7 @@ router.get('/profile', requireAuth(), async (req, res) => {
         lastName: user.lastName,
         profileImage: user.profileImage
       });
-      
+
       await user.save();
     }
 
@@ -100,6 +100,7 @@ router.get('/profile', requireAuth(), async (req, res) => {
         firstName: user.firstName,
         lastName: user.lastName,
         profileImage: user.profileImage,
+        role: user.role, // Added role field
         createdAt: user.createdAt
       }
     });
@@ -183,10 +184,10 @@ router.put('/profile', requireAuth(), async (req, res) => {
     const auth = req.auth();
     const { userId } = auth;
     const { firstName, lastName } = req.body;
-    
+
     const user = await User.findOneAndUpdate(
       { clerkId: userId },
-      { 
+      {
         firstName,
         lastName
       },
@@ -261,14 +262,14 @@ router.post('/refresh', requireAuth(), async (req, res) => {
   try {
     const auth = req.auth();
     const { userId } = auth;
-    
+
     // Get fresh data from Clerk
     const clerkUserData = await getClerkUserData(userId);
-    
+
     if (!clerkUserData) {
       return res.status(400).json({ error: 'Could not fetch user data from Clerk' });
     }
-    
+
     // Update or create user with fresh data
     const user = await User.findOneAndUpdate(
       { clerkId: userId },
@@ -280,14 +281,14 @@ router.post('/refresh', requireAuth(), async (req, res) => {
       },
       { new: true, upsert: true, runValidators: true }
     );
-    
+
     console.log('🔄 User data refreshed:', {
       clerkId: user.clerkId,
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName
     });
-    
+
     res.json({
       success: true,
       message: 'User data refreshed successfully',
@@ -298,6 +299,7 @@ router.post('/refresh', requireAuth(), async (req, res) => {
         firstName: user.firstName,
         lastName: user.lastName,
         profileImage: user.profileImage,
+        role: user.role, // Added role field
         createdAt: user.createdAt
       }
     });

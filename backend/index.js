@@ -13,6 +13,8 @@ const errorHandler = require('./middleware/errorHandler');
 
 // Import routes
 const userRoutes = require('./routes/users');
+const blogRoutes = require('./routes/blogs');
+const memberRoutes = require('./routes/members');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -95,6 +97,8 @@ app.get('/api/health', (req, res) => {
 
 // API Routes
 app.use('/api/users', userRoutes);
+app.use('/api/blogs', blogRoutes);
+app.use('/api/members', memberRoutes);
 
 /**
  * @swagger
@@ -135,15 +139,15 @@ app.use('/api/users', userRoutes);
  *                   example: 'Unauthorized'
  */
 app.get('/api/protected', (req, res) => {
-    if (req.auth) {
-        res.json({ 
-          message: 'You are accessing a protected route!', 
-          userId: req.auth.userId,
-          timestamp: new Date().toISOString()
-        });
-    } else {
-        res.status(401).json({ message: 'Unauthorized' });
-    }
+  if (req.auth) {
+    res.json({
+      message: 'You are accessing a protected route!',
+      userId: req.auth.userId,
+      timestamp: new Date().toISOString()
+    });
+  } else {
+    res.status(401).json({ message: 'Unauthorized' });
+  }
 });
 
 // Error handling middleware (must be last)
@@ -161,13 +165,13 @@ app.use((req, res) => {
 const MONGODB_URI = process.env.MONGODB_URI;
 if (MONGODB_URI) {
   mongoose.connect(MONGODB_URI)
-  .then(() => {
-    console.log('✅ MongoDB connected successfully');
-    console.log(`📊 Database: ${mongoose.connection.name}`);
-  })
-  .catch(err => {
-    console.error('❌ MongoDB connection error:', err.message);
-  });
+    .then(() => {
+      console.log('✅ MongoDB connected successfully');
+      console.log(`📊 Database: ${mongoose.connection.name}`);
+    })
+    .catch(err => {
+      console.error('❌ MongoDB connection error:', err.message);
+    });
 } else {
   console.warn('⚠️  MONGODB_URI not found in environment variables');
 }

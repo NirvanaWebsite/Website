@@ -28,20 +28,14 @@ const Contact = () => {
     {
       icon: Mail,
       title: 'Email Us',
-      details: 'hello@nirvanaclub.com',
+      details: 'nirvana.club@iiits.in',
       description: 'Send us an email anytime'
-    },
-    {
-      icon: Phone,
-      title: 'Call Us',
-      details: '+1 (555) 123-4567',
-      description: 'Mon-Fri from 8am to 6pm'
     },
     {
       icon: MapPin,
       title: 'Visit Us',
-      details: 'San Francisco, CA',
-      description: 'Come say hello at our office'
+      details: 'Indian Institute of Information Technology Sri City (Institute of National Importance under an Act of Parliament) 630 Gnan Marg, Sri City, Satyavedu Mandal Chittoor District - 517 646, Andhra Pradesh, India',
+      description: 'Come say hello at our campus'
     }
   ]
 
@@ -57,18 +51,18 @@ const Contact = () => {
             </span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Have questions or want to learn more? We'd love to hear from you. 
+            Have questions or want to learn more? We'd love to hear from you.
             Send us a message and we'll respond as soon as possible.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
           {/* Contact Info */}
           <div className="space-y-8">
             <div>
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Let's Start a Conversation</h3>
               <p className="text-gray-600 mb-8">
-                Whether you're interested in joining our community, have feedback, or want to explore 
+                Whether you're interested in joining our community, have feedback, or want to explore
                 partnership opportunities, we're here to help.
               </p>
             </div>
@@ -84,7 +78,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h4 className="text-lg font-semibold text-gray-900 mb-1">{info.title}</h4>
-                    <p className="text-primary font-medium mb-1">{info.details}</p>
+                    <p className="text-primary font-medium mb-1 whitespace-pre-line">{info.details}</p>
                     <p className="text-gray-600 text-sm">{info.description}</p>
                   </div>
                 </div>
@@ -95,8 +89,7 @@ const Contact = () => {
             <div className="bg-gradient-to-br from-primary/5 to-orange-100/50 rounded-2xl p-6 border border-orange-200">
               <h4 className="text-lg font-semibold text-gray-900 mb-2">Quick Response</h4>
               <p className="text-gray-600 text-sm">
-                We typically respond to all inquiries within 24 hours. For urgent matters, 
-                please call us directly.
+                We typically respond to all inquiries within 24 hours.
               </p>
             </div>
           </div>
@@ -178,6 +171,20 @@ const Contact = () => {
               </button>
             </form>
           </div>
+        </div>
+
+        {/* Map Section */}
+        <div className="w-full h-96 rounded-2xl overflow-hidden shadow-lg border border-gray-200">
+          <iframe
+            src="https://maps.google.com/maps?q=Indian%20Institute%20of%20Information%20Technology%20Sri%20City&t=&z=15&ie=UTF8&iwloc=&output=embed"
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            allowFullScreen=""
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="IIIT Sri City Location"
+          ></iframe>
         </div>
       </div>
     </section>
