@@ -20,7 +20,12 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(logger);
@@ -176,9 +181,10 @@ if (MONGODB_URI) {
   console.warn('⚠️  MONGODB_URI not found in environment variables');
 }
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`🚀 Nirvana Club Backend running on port: ${port}`);
-  console.log(`🌐 API Base URL: http://localhost:${port}`);
+  console.log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`🔗 CORS enabled for: ${process.env.FRONTEND_URL || 'http://localhost:5173'}`);
   console.log(`📋 Health Check: http://localhost:${port}/api/health`);
   console.log(`📚 API Documentation: http://localhost:${port}/api-docs`);
 });

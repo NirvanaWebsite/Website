@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Edit, Trash2, X, Search, Save, ArrowLeft, Eye, EyeOff } from 'lucide-react';
 import { useUser, useAuth } from '@clerk/clerk-react';
 import { useNavigate } from 'react-router-dom';
+import { getApiUrl, API_ENDPOINTS } from '../config/api';
 
 const ManageBlogs = () => {
     const { user, isLoaded } = useUser();
@@ -37,7 +38,7 @@ const ManageBlogs = () => {
 
             try {
                 const token = await getToken();
-                const userRes = await fetch('http://localhost:5000/api/users/profile', {
+                const userRes = await fetch(getApiUrl(API_ENDPOINTS.USER_PROFILE), {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const userData = await userRes.json();
@@ -62,7 +63,7 @@ const ManageBlogs = () => {
     const fetchBlogs = async () => {
         try {
             const token = await getToken();
-            const response = await fetch('http://localhost:5000/api/blogs/manage', {
+            const response = await fetch(getApiUrl(API_ENDPOINTS.BLOGS_MANAGE), {
                 headers: { Authorization: `Bearer ${token}` }
             });
             const data = await response.json();
@@ -137,14 +138,14 @@ const ManageBlogs = () => {
 
             if (currentBlog) {
                 // Update
-                await fetch(`http://localhost:5000/api/blogs/${currentBlog._id}`, {
+                await fetch(getApiUrl(API_ENDPOINTS.BLOG_BY_ID(currentBlog._id)), {
                     method: 'PUT',
                     headers,
                     body: JSON.stringify(payload)
                 });
             } else {
                 // Create
-                await fetch('http://localhost:5000/api/blogs', {
+                await fetch(getApiUrl(API_ENDPOINTS.BLOGS), {
                     method: 'POST',
                     headers,
                     body: JSON.stringify(payload)
@@ -164,7 +165,7 @@ const ManageBlogs = () => {
 
         try {
             const token = await getToken();
-            await fetch(`http://localhost:5000/api/blogs/${id}`, {
+            await fetch(getApiUrl(API_ENDPOINTS.BLOG_BY_ID(id)), {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });

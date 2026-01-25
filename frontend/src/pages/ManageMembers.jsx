@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Edit, Trash2, X, Search, Save, ArrowLeft, User, Linkedin, LayoutGrid, ChevronDown, ChevronRight } from 'lucide-react';
 import { useUser, useAuth } from '@clerk/clerk-react';
 import { useNavigate } from 'react-router-dom';
+import { getApiUrl, API_ENDPOINTS } from '../config/api';
 
 const ManageMembers = () => {
     const { user, isLoaded } = useUser();
@@ -35,7 +36,7 @@ const ManageMembers = () => {
             }
             try {
                 const token = await getToken();
-                const userRes = await fetch('http://localhost:5000/api/users/profile', {
+                const userRes = await fetch(getApiUrl(API_ENDPOINTS.USER_PROFILE), {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const userData = await userRes.json();
@@ -57,7 +58,7 @@ const ManageMembers = () => {
     // --- Fetch Members ---
     const fetchMembers = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/members');
+            const response = await fetch(getApiUrl(API_ENDPOINTS.MEMBERS));
             const data = await response.json();
             setMembers(data);
         } catch (error) {
@@ -86,11 +87,11 @@ const ManageMembers = () => {
 
             let response;
             if (currentMember) {
-                response = await fetch(`http://localhost:5000/api/members/${currentMember._id}`, {
+                response = await fetch(getApiUrl(API_ENDPOINTS.MEMBER_BY_ID(currentMember._id)), {
                     method: 'PUT', headers, body: JSON.stringify(payload)
                 });
             } else {
-                response = await fetch('http://localhost:5000/api/members', {
+                response = await fetch(getApiUrl(API_ENDPOINTS.MEMBERS), {
                     method: 'POST', headers, body: JSON.stringify(payload)
                 });
             }
@@ -112,7 +113,7 @@ const ManageMembers = () => {
         if (!window.confirm('Delete this member?')) return;
         try {
             const token = await getToken();
-            const response = await fetch(`http://localhost:5000/api/members/${id}`, {
+            const response = await fetch(getApiUrl(API_ENDPOINTS.MEMBER_BY_ID(id)), {
                 method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` }
             });
 

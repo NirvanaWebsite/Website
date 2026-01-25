@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth, useUser } from '@clerk/clerk-react';
 import { Clock, User, Settings } from 'lucide-react';
+import { getApiUrl, API_ENDPOINTS } from '../config/api';
 
 const Blogs = () => {
     const { getToken, userId } = useAuth();
@@ -19,7 +20,7 @@ const Blogs = () => {
 
                 // Fetch User Role
                 if (userId) {
-                    const userRes = await fetch('http://localhost:5000/api/users/profile', {
+                    const userRes = await fetch(getApiUrl(API_ENDPOINTS.USER_PROFILE), {
                         headers: { Authorization: `Bearer ${token}` }
                     });
                     const userData = await userRes.json();
@@ -32,7 +33,7 @@ const Blogs = () => {
                 }
 
                 // Fetch Blogs (Public)
-                const blogsRes = await fetch('http://localhost:5000/api/blogs');
+                const blogsRes = await fetch(getApiUrl(API_ENDPOINTS.BLOGS));
                 const blogsData = await blogsRes.json();
                 if (blogsData.success) {
                     setBlogs(blogsData.blogs);

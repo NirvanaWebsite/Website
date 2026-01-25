@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Clock, User, Calendar, Tag } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
+import { getApiUrl, API_ENDPOINTS } from '../config/api';
 
 const BlogDetail = () => {
     const { id } = useParams();
@@ -12,7 +13,7 @@ const BlogDetail = () => {
     useEffect(() => {
         const fetchBlog = async () => {
             try {
-                const res = await fetch(`http://localhost:5000/api/blogs/${id}`);
+                const res = await fetch(getApiUrl(API_ENDPOINTS.BLOG_BY_ID(id)));
                 const data = await res.json();
                 if (data.success) {
                     setBlog(data.blog);

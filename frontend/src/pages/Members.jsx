@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import YearSection from '../components/MembersTree/YearSection';
 import Filters from '../components/MembersTree/Filters';
 import SearchBar from '../components/MembersTree/SearchBar';
+import { getApiUrl, API_ENDPOINTS } from '../config/api';
 
 const Members = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -27,7 +28,7 @@ const Members = () => {
             if (user) {
                 try {
                     const token = await window.Clerk?.session?.getToken();
-                    const userRes = await fetch('http://localhost:5000/api/users/profile', {
+                    const userRes = await fetch(getApiUrl(API_ENDPOINTS.USER_PROFILE), {
                         headers: { Authorization: `Bearer ${token}` }
                     });
                     const userData = await userRes.json();
@@ -46,7 +47,7 @@ const Members = () => {
     useEffect(() => {
         const fetchMembers = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/members');
+                const response = await fetch(getApiUrl(API_ENDPOINTS.MEMBERS));
                 const data = await response.json();
 
                 // Group flat list back into year structure for the UI

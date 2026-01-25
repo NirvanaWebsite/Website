@@ -1,5 +1,6 @@
 import { useUser, useAuth, SignOutButton } from '@clerk/clerk-react'
 import { useState, useEffect } from 'react'
+import { getApiUrl, API_ENDPOINTS } from '../config/api'
 
 const Dashboard = () => {
   const { user, isLoaded } = useUser()
@@ -15,9 +16,9 @@ const Dashboard = () => {
     try {
       setLoading(true)
       setError(null)
-      
+
       const token = await getToken()
-      const response = await fetch('http://localhost:5000/api/users/profile', {
+      const response = await fetch(getApiUrl(API_ENDPOINTS.USER_PROFILE), {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -64,7 +65,7 @@ const Dashboard = () => {
     try {
       setLoading(true)
       const token = await getToken()
-      const response = await fetch('http://localhost:5000/api/users/profile', {
+      const response = await fetch(getApiUrl(API_ENDPOINTS.USER_PROFILE), {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -88,7 +89,7 @@ const Dashboard = () => {
     try {
       setLoading(true)
       const token = await getToken()
-      const response = await fetch('http://localhost:5000/api/users/refresh', {
+      const response = await fetch(getApiUrl(API_ENDPOINTS.USER_REFRESH), {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -121,11 +122,10 @@ const Dashboard = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === tab.id
+                className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === tab.id
                     ? 'border-orange-500 text-orange-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
+                  }`}
               >
                 <span className="mr-2">{tab.icon}</span>
                 {tab.name}
@@ -162,7 +162,7 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="bg-white rounded-xl p-6 shadow-sm border">
                 <div className="flex items-center">
                   <div className="p-2 bg-green-100 rounded-lg">
@@ -174,7 +174,7 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="bg-white rounded-xl p-6 shadow-sm border">
                 <div className="flex items-center">
                   <div className="p-2 bg-purple-100 rounded-lg">
@@ -194,7 +194,7 @@ const Dashboard = () => {
             <div className="bg-white rounded-xl p-6 shadow-sm border">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <button 
+                <button
                   onClick={() => setActiveTab('profile')}
                   className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 text-left"
                 >
@@ -202,8 +202,8 @@ const Dashboard = () => {
                   <div className="font-medium">Edit Profile</div>
                   <div className="text-sm text-gray-500">Update your information</div>
                 </button>
-                
-                <button 
+
+                <button
                   onClick={refreshUserData}
                   className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 text-left"
                 >
@@ -211,8 +211,8 @@ const Dashboard = () => {
                   <div className="font-medium">Refresh Data</div>
                   <div className="text-sm text-gray-500">Sync from Clerk</div>
                 </button>
-                
-                <button 
+
+                <button
                   onClick={() => setActiveTab('settings')}
                   className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 text-left"
                 >
@@ -220,8 +220,8 @@ const Dashboard = () => {
                   <div className="font-medium">Settings</div>
                   <div className="text-sm text-gray-500">Manage preferences</div>
                 </button>
-                
-                <button 
+
+                <button
                   onClick={() => setActiveTab('activity')}
                   className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 text-left"
                 >
@@ -265,7 +265,7 @@ const Dashboard = () => {
                       <input
                         type="text"
                         value={editData.firstName}
-                        onChange={(e) => setEditData({...editData, firstName: e.target.value})}
+                        onChange={(e) => setEditData({ ...editData, firstName: e.target.value })}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500"
                       />
                     </div>
@@ -276,7 +276,7 @@ const Dashboard = () => {
                       <input
                         type="text"
                         value={editData.lastName}
-                        onChange={(e) => setEditData({...editData, lastName: e.target.value})}
+                        onChange={(e) => setEditData({ ...editData, lastName: e.target.value })}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500"
                       />
                     </div>
@@ -311,7 +311,7 @@ const Dashboard = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-4">MongoDB Data</h3>
                     {backendUser ? (
@@ -340,7 +340,7 @@ const Dashboard = () => {
           <div className="space-y-6">
             <div className="bg-white rounded-xl p-6 shadow-sm border">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Settings</h2>
-              
+
               <div className="space-y-6">
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">Account Actions</h3>
@@ -352,7 +352,7 @@ const Dashboard = () => {
                     >
                       {loading ? 'Refreshing...' : 'Refresh User Data from Clerk'}
                     </button>
-                    
+
                     <button
                       onClick={fetchUserProfile}
                       disabled={loading}
@@ -362,15 +362,15 @@ const Dashboard = () => {
                     </button>
                   </div>
                 </div>
-                
+
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">Sync Status</h3>
                   <div className="bg-green-50 rounded-lg p-4">
                     <div className="text-green-700">
                       {backendUser && user ? (
                         <>
-                          ✅ Frontend and Backend are synchronized<br/>
-                          ✅ User ID: {user.id === backendUser.clerkId ? 'Match' : 'Mismatch'}<br/>
+                          ✅ Frontend and Backend are synchronized<br />
+                          ✅ User ID: {user.id === backendUser.clerkId ? 'Match' : 'Mismatch'}<br />
                           ✅ Email: {user.primaryEmailAddress?.emailAddress === backendUser.email ? 'Match' : 'Mismatch'}
                         </>
                       ) : (
@@ -388,7 +388,7 @@ const Dashboard = () => {
           <div className="space-y-6">
             <div className="bg-white rounded-xl p-6 shadow-sm border">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Recent Activity</h2>
-              
+
               <div className="space-y-4">
                 <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
                   <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
@@ -399,7 +399,7 @@ const Dashboard = () => {
                     <p className="text-sm text-gray-500">{new Date(user?.createdAt).toLocaleString()}</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
                   <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
                     <span className="text-blue-600">🔄</span>
@@ -409,7 +409,7 @@ const Dashboard = () => {
                     <p className="text-sm text-gray-500">Clerk and MongoDB data synced</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
                   <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
                     <span className="text-orange-600">👋</span>
@@ -428,7 +428,7 @@ const Dashboard = () => {
         {error && (
           <div className="bg-red-50 rounded-lg p-4 mb-6">
             <div className="text-red-700">Error: {error}</div>
-            <button 
+            <button
               onClick={() => setError(null)}
               className="mt-2 text-red-600 hover:text-red-800 text-sm underline"
             >
