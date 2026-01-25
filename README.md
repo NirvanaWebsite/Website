@@ -14,6 +14,24 @@
 
 </div>
 
+## 📑 Table of Contents
+
+- [✨ Features That Shine](#-features-that-shine)
+- [🏗️ System Architecture](#️-system-architecture)
+- [📁 Project Structure](#-project-structure)
+- [🚀 Quick Start Guide](#-quick-start-guide)
+- [🔧 API Endpoints](#-api-endpoints)
+- [📊 Dashboard](#-dashboard)
+- [👥 Role Hierarchy System](#-role-hierarchy-system)
+- [🔐 Authentication & Data Flow](#-authentication--data-flow)
+- [🧪 Testing](#-testing)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
+- [👥 Team](#-team)
+- [📞 Support](#-support)
+
+---
+
 ## ✨ **Features That Shine**
 
 <table>
@@ -305,21 +323,210 @@ graph TD
 5. **Profile Management**: Real-time sync between Clerk and MongoDB
 6. **Fallback Handling**: Graceful handling of incomplete data
 
-## 🚀 **Deployment**
+## 🧪 **Testing**
 
-**Frontend** (Netlify/Vercel) • **Backend** (Railway/Heroku) • **Database** (MongoDB Atlas)
+### Running Tests
 
-1. Build frontend: `npm run build`
-2. Set environment variables on platforms
-3. Deploy with automatic builds and scaling
+```bash
+# Backend tests
+cd backend
+npm test
 
-## 🤝 Contributing
+# Frontend tests
+cd frontend
+npm test
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature-name`
-3. Commit changes: `git commit -m 'Add feature'`
-4. Push to branch: `git push origin feature-name`
-5. Submit a pull request
+# Run tests with coverage
+npm run test:coverage
+```
+
+### Manual Testing Checklist
+
+- [ ] User registration with email
+- [ ] User login with Google OAuth
+- [ ] User login with GitHub OAuth
+- [ ] Profile data sync between Clerk and MongoDB
+- [ ] Profile editing and updates
+- [ ] Role-based access control
+- [ ] Dashboard navigation
+- [ ] API endpoint authentication
+- [ ] Error handling and validation
+
+---
+
+## 🐛 **Troubleshooting**
+
+### Common Issues
+
+<details>
+<summary><strong>❌ CORS Errors</strong></summary>
+
+**Problem:** Frontend cannot connect to backend
+
+**Solution:**
+```javascript
+// backend/index.js
+const cors = require('cors');
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  credentials: true
+}));
+```
+</details>
+
+<details>
+<summary><strong>❌ MongoDB Connection Failed</strong></summary>
+
+**Problem:** Cannot connect to MongoDB Atlas
+
+**Solutions:**
+1. Check if IP is whitelisted in MongoDB Atlas
+2. Verify connection string format
+3. Ensure database user has correct permissions
+4. Check network connectivity
+</details>
+
+<details>
+<summary><strong>❌ Clerk Authentication Not Working</strong></summary>
+
+**Problem:** Users cannot sign in
+
+**Solutions:**
+1. Verify Clerk API keys are correct
+2. Check if domain is added to Clerk dashboard
+3. Ensure `VITE_CLERK_PUBLISHABLE_KEY` matches backend key
+4. Clear browser cache and cookies
+</details>
+
+<details>
+<summary><strong>❌ Build Errors</strong></summary>
+
+**Problem:** `npm run build` fails
+
+**Solutions:**
+1. Delete `node_modules` and `package-lock.json`
+2. Run `npm install` again
+3. Check Node.js version (requires v18+)
+4. Clear npm cache: `npm cache clean --force`
+</details>
+
+---
+
+## 🤝 **Contributing**
+
+We welcome contributions from the community! Here's how you can help:
+
+### Development Workflow
+
+1. **Fork the Repository**
+   ```bash
+   # Click the 'Fork' button on GitHub
+   ```
+
+2. **Clone Your Fork**
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/Website.git
+   cd Website
+   ```
+
+3. **Create a Feature Branch**
+   ```bash
+   git checkout -b feature/your-feature-name
+   # or
+   git checkout -b fix/your-bug-fix
+   ```
+
+4. **Make Your Changes**
+   - Write clean, readable code
+   - Follow existing code style
+   - Add comments where necessary
+   - Update documentation if needed
+
+5. **Test Your Changes**
+   ```bash
+   # Run tests
+   npm test
+   
+   # Test manually
+   npm run dev
+   ```
+
+6. **Commit Your Changes**
+   ```bash
+   git add .
+   git commit -m "feat: add amazing feature"
+   ```
+   
+   **Commit Message Convention:**
+   - `feat:` New feature
+   - `fix:` Bug fix
+   - `docs:` Documentation changes
+   - `style:` Code style changes (formatting)
+   - `refactor:` Code refactoring
+   - `test:` Adding tests
+   - `chore:` Maintenance tasks
+
+7. **Push to Your Fork**
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+
+8. **Create a Pull Request**
+   - Go to the original repository
+   - Click "New Pull Request"
+   - Select your fork and branch
+   - Fill in the PR template
+   - Submit for review
+
+### Code Style Guidelines
+
+- Use **ES6+** syntax
+- Follow **Airbnb JavaScript Style Guide**
+- Use **meaningful variable names**
+- Keep functions **small and focused**
+- Add **JSDoc comments** for functions
+- Use **async/await** over promises
+
+### Pull Request Guidelines
+
+- Provide a clear description of changes
+- Reference related issues
+- Include screenshots for UI changes
+- Ensure all tests pass
+- Update documentation if needed
+- Keep PRs focused on a single feature/fix
+
+---
+
+## 📄 **License**
+
+This project is licensed under the **MIT License** - see below for details:
+
+```
+MIT License
+
+Copyright (c) 2026 Nirvana Club
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+---
 
 
 ## 👥 Team
