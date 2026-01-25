@@ -185,6 +185,6 @@ app.listen(port, '0.0.0.0', () => {
   console.log(`🚀 Nirvana Club Backend running on port: ${port}`);
   console.log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`🔗 CORS enabled for: ${process.env.FRONTEND_URL || 'http://localhost:5173'}`);
-  console.log(`📋 Health Check: http://localhost:${port}/api/health`);
-  console.log(`📚 API Documentation: http://localhost:${port}/api-docs`);
+  console.log(`📋 Health Check: ${process.env.HEALTH_URL}:${port}/api/health`)
+  console.log(`📚 API Documentation: ${process.env.DOCS_URL}:${port}/api-docs`)
 });
