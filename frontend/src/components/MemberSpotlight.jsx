@@ -7,25 +7,25 @@ const members = [
         id: 1,
         name: 'Himanshu Saraswat',
         role: 'Co-Founder',
-        image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face',
+        image: '/Himanshu.png',
         bio: 'Visionary leader building the future of community engagement.',
-        socials: { linkedin: '#', github: '#' }
+        socials: { linkedin: 'https://www.linkedin.com/in/himanshu-saraswat-763843258/', github: 'https://github.com/Himanshu-Saraswat-01122004' }
     },
     {
         id: 2,
         name: 'Aahnik Daw',
         role: 'Co-Founder',
-        image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face',
+        image: '/aahnik.png',
         bio: 'Tech enthusiast creating innovative platforms and solutions.',
-        socials: { linkedin: '#', twitter: '#' }
+        socials: { linkedin: 'https://www.linkedin.com/in/aahnik/', twitter: 'https://github.com/aahnik' }
     },
     {
         id: 3,
         name: 'Raghvendra CVS',
         role: 'Co-Founder',
-        image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face',
+        image: '/raghvendra.png',
         bio: 'Strategic thinker focused on scalable user experiences.',
-        socials: { github: '#' }
+        socials: { linkedin: 'https://www.linkedin.com/in/raghvendra-cvs-07b53b258/' }
     },
 
 ];
