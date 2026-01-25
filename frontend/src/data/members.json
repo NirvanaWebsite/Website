@@ -1,0 +1,769 @@
+[
+  {
+    "year": "2025-26",
+    "members": [
+      {
+        "id": "2025-lead-1",
+        "name": "Himanshu Saraswat",
+        "role": "Club Lead",
+        "domain": "Club Leadership",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-colead-1",
+        "name": "Jeet Tushar Mahajan",
+        "role": "Club Co-Lead",
+        "domain": "Club Leadership",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-colead-2",
+        "name": "Yash Ghule",
+        "role": "Club Co-Lead",
+        "domain": "Club Leadership",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-des-adv-1",
+        "name": "N Rohitha",
+        "role": "Advisor",
+        "domain": "Design & Video",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-des-lead-1",
+        "name": "Manasa Jadhav",
+        "role": "Domain Lead",
+        "domain": "Design & Video",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-des-core-1",
+        "name": "Jiya Mugale",
+        "role": "Core",
+        "domain": "Design & Video",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-des-core-2",
+        "name": "Atul Ravi",
+        "role": "Core",
+        "domain": "Design & Video",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-des-core-3",
+        "name": "Anant Garg",
+        "role": "Core",
+        "domain": "Design & Video",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-des-mem-1",
+        "name": "Aniket Ghuge",
+        "role": "Member",
+        "domain": "Design & Video",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-des-mem-2",
+        "name": "Tanvi Mudili",
+        "role": "Member",
+        "domain": "Design & Video",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-evt-lead-1",
+        "name": "Dhruv Pekhale",
+        "role": "Domain Lead",
+        "domain": "Event & Outreach",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-evt-core-1",
+        "name": "Himanshu Sinha",
+        "role": "Core",
+        "domain": "Event & Outreach",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-evt-core-2",
+        "name": "Naseeb Sindhu",
+        "role": "Core",
+        "domain": "Event & Outreach",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-evt-core-3",
+        "name": "Harvind S",
+        "role": "Core",
+        "domain": "Event & Outreach",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-mgt-lead-1",
+        "name": "Kanishk Gorana",
+        "role": "Domain Lead",
+        "domain": "Management",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-mgt-core-1",
+        "name": "Lucky Gautam",
+        "role": "Core",
+        "domain": "Management",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-mgt-core-2",
+        "name": "Raveendra Purohit",
+        "role": "Core",
+        "domain": "Management",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-mgt-core-3",
+        "name": "Sarthak Chowdhary",
+        "role": "Core",
+        "domain": "Management",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-mgt-mem-1",
+        "name": "Utkarsh Singh",
+        "role": "Member",
+        "domain": "Management",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-mgt-mem-2",
+        "name": "Abhishek Kapde",
+        "role": "Member",
+        "domain": "Management",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-mgt-mem-3",
+        "name": "Daksh Dave",
+        "role": "Member",
+        "domain": "Management",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-mgt-mem-4",
+        "name": "Shreyas Jaiswal",
+        "role": "Member",
+        "domain": "Management",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-mgt-mem-5",
+        "name": "Mayank Kumar",
+        "role": "Member",
+        "domain": "Management",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-pr-adv-1",
+        "name": "Pravalika",
+        "role": "Advisor",
+        "domain": "PR",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-pr-lead-1",
+        "name": "Krish Kathiriya",
+        "role": "Domain Lead",
+        "domain": "PR",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-pr-lead-2",
+        "name": "Rajat Jain",
+        "role": "Domain Lead",
+        "domain": "PR",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-pr-core-1",
+        "name": "Kartik Kumthe",
+        "role": "Core",
+        "domain": "PR",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-pr-core-2",
+        "name": "Medhansh Rao",
+        "role": "Core",
+        "domain": "PR",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-pr-core-3",
+        "name": "Dev Dharsandiya",
+        "role": "Core",
+        "domain": "PR",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-pr-mem-1",
+        "name": "Prajapati Mitul",
+        "role": "Member",
+        "domain": "PR",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-pr-mem-2",
+        "name": "Sumedh Muley",
+        "role": "Member",
+        "domain": "PR",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-pr-mem-3",
+        "name": "Krishmita C",
+        "role": "Member",
+        "domain": "PR",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-res-lead-1",
+        "name": "Shekhar Deshmukh",
+        "role": "Domain Lead",
+        "domain": "Research",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-res-core-1",
+        "name": "Satyam Kumar",
+        "role": "Core",
+        "domain": "Research",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-res-mem-1",
+        "name": "Shudhanshu Tripathi",
+        "role": "Member",
+        "domain": "Research",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-res-mem-2",
+        "name": "Choda Adimahalakshmi",
+        "role": "Member",
+        "domain": "Research",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-res-mem-3",
+        "name": "Aarush Pathak",
+        "role": "Member",
+        "domain": "Research",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-res-mem-4",
+        "name": "Umang Balicha",
+        "role": "Member",
+        "domain": "Research",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-res-mem-5",
+        "name": "Geshna Padmasri Medisetti",
+        "role": "Member",
+        "domain": "Research",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-tech-lead-1",
+        "name": "Karmanya Belsare",
+        "role": "Domain Lead",
+        "domain": "Tech",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-tech-core-1",
+        "name": "Devashish Pundkar",
+        "role": "Core",
+        "domain": "Tech",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-tech-core-2",
+        "name": "Tejas Tandon",
+        "role": "Core",
+        "domain": "Tech",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-tech-mem-1",
+        "name": "Omkar Dhulugade",
+        "role": "Member",
+        "domain": "Tech",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2025-tech-mem-2",
+        "name": "Shrinivas Bhong",
+        "role": "Member",
+        "domain": "Tech",
+        "image": "",
+        "linkedin": ""
+      }
+    ]
+  },
+  {
+    "year": "2024-25",
+    "members": [
+      {
+        "id": "2024-adv-1",
+        "name": "Suyash Tiwari",
+        "role": "Research Advisor",
+        "domain": "Research",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2024-adv-2",
+        "name": "Rohan Vinkare",
+        "role": "Design & Video Advisor",
+        "domain": "Design & Video",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2024-adv-3",
+        "name": "Muni Venkat",
+        "role": "PR Advisor",
+        "domain": "PR",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2024-adv-4",
+        "name": "Keshav Gautam",
+        "role": "Management Advisor",
+        "domain": "Management",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2024-lead-1",
+        "name": "Himanshu Saraswat",
+        "role": "Lead",
+        "domain": "Club Leadership",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2024-colead-1",
+        "name": "Mahesh Datta",
+        "role": "Co-Lead",
+        "domain": "Club Leadership",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2024-res-lead-1",
+        "name": "Shyam Modi",
+        "role": "Lead",
+        "domain": "Research",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2024-res-lead-2",
+        "name": "Dhruv Patel",
+        "role": "Lead",
+        "domain": "Research",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2024-res-core-1",
+        "name": "Dara Sai Vivash",
+        "role": "Core",
+        "domain": "Research",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2024-res-core-2",
+        "name": "Harshit Sharma",
+        "role": "Core",
+        "domain": "Research",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2024-res-core-3",
+        "name": "Piyush Kumar",
+        "role": "Core",
+        "domain": "Research",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2024-mgt-lead-1",
+        "name": "Ashutosh Sinha",
+        "role": "Lead",
+        "domain": "Management",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2024-mgt-lead-2",
+        "name": "Aadi Patel",
+        "role": "Lead",
+        "domain": "Management",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2024-mgt-core-1",
+        "name": "Vasudev Dilware",
+        "role": "Core",
+        "domain": "Management",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2024-mgt-core-2",
+        "name": "Sajja Balaji Sai Surya",
+        "role": "Core",
+        "domain": "Management",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2024-pr-lead-1",
+        "name": "Vyom Nikhra",
+        "role": "Lead",
+        "domain": "PR",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2024-pr-lead-2",
+        "name": "Siddharth Singh",
+        "role": "Lead",
+        "domain": "PR",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2024-des-lead-1",
+        "name": "Vedant Kesarwani",
+        "role": "Lead",
+        "domain": "Design & Video",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2024-des-lead-2",
+        "name": "Vanya Awasthi",
+        "role": "Lead",
+        "domain": "Design & Video",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2024-tech-lead-1",
+        "name": "Naman Goyal",
+        "role": "Lead",
+        "domain": "Tech",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2024-tech-lead-2",
+        "name": "Gaurav Gautam",
+        "role": "Lead",
+        "domain": "Tech",
+        "image": "",
+        "linkedin": ""
+      }
+    ]
+  },
+  {
+    "year": "2023-24",
+    "members": [
+      {
+        "id": "2023-res-lead-1",
+        "name": "Kowshik Ponnapalli",
+        "role": "Lead",
+        "domain": "Research",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-pr-lead-1",
+        "name": "Srikar Chaturvedula",
+        "role": "Lead",
+        "domain": "PR",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-pr-lead-2",
+        "name": "Adarsh Singh",
+        "role": "Lead",
+        "domain": "PR",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-mgt-lead-1",
+        "name": "Bishwadeep Maitra",
+        "role": "Lead",
+        "domain": "Management",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-mgt-lead-2",
+        "name": "Mahesh Datta",
+        "role": "Lead",
+        "domain": "Management",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-mgt-lead-3",
+        "name": "Aditya Pal",
+        "role": "Lead",
+        "domain": "Management",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-des-lead-1",
+        "name": "Piyush Singh",
+        "role": "Lead",
+        "domain": "Design",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-des-lead-2",
+        "name": "AJ Harshvardhan",
+        "role": "Lead",
+        "domain": "Design",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-tech-lead-1",
+        "name": "Aahnik Daw",
+        "role": "Lead",
+        "domain": "Tech",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-tech-lead-2",
+        "name": "Parth Vijay",
+        "role": "Lead",
+        "domain": "Tech",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-res-core-1",
+        "name": "Dara Sai Vivash",
+        "role": "Core",
+        "domain": "Research",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-res-core-2",
+        "name": "Harshit Sharma",
+        "role": "Core",
+        "domain": "Research",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-res-core-3",
+        "name": "Shyam Modi",
+        "role": "Core",
+        "domain": "Research",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-res-core-4",
+        "name": "Patel Dhruv",
+        "role": "Core",
+        "domain": "Research",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-res-core-5",
+        "name": "Sunilkumar",
+        "role": "Core",
+        "domain": "Research",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-res-core-6",
+        "name": "Piyush Kumar",
+        "role": "Core",
+        "domain": "Research",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-pr-core-1",
+        "name": "Prajwal Kumar",
+        "role": "Core",
+        "domain": "PR",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-pr-core-2",
+        "name": "Siddharth Singh",
+        "role": "Core",
+        "domain": "PR",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-pr-core-3",
+        "name": "Vyom Nikhra",
+        "role": "Core",
+        "domain": "PR",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-mgt-core-1",
+        "name": "Sai Reddy",
+        "role": "Core",
+        "domain": "Management",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-mgt-core-2",
+        "name": "Vighnesh",
+        "role": "Core",
+        "domain": "Management",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-mgt-core-3",
+        "name": "Vasudev Dilware",
+        "role": "Core",
+        "domain": "Management",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-mgt-core-4",
+        "name": "Sajja Balaji Sai Surya",
+        "role": "Core",
+        "domain": "Management",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-mgt-core-5",
+        "name": "Patel Aadi",
+        "role": "Core",
+        "domain": "Management",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-mgt-core-6",
+        "name": "Ashutosh Sinha",
+        "role": "Core",
+        "domain": "Management",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-des-core-1",
+        "name": "Naman Goyal",
+        "role": "Core",
+        "domain": "Design",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-des-core-2",
+        "name": "Y. Punarvitha",
+        "role": "Core",
+        "domain": "Design",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-tech-core-1",
+        "name": "Ashwin",
+        "role": "Core",
+        "domain": "Tech",
+        "image": "",
+        "linkedin": ""
+      },
+      {
+        "id": "2023-tech-core-2",
+        "name": "Gaurav Gautam",
+        "role": "Core",
+        "domain": "Tech",
+        "image": "",
+        "linkedin": ""
+      }
+    ]
+  }
+]

@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     index: true,
-    default: function() {
+    default: function () {
       return `user_${this.clerkId}@nirvanaclub.com`;
     }
   },
@@ -27,6 +27,11 @@ const userSchema = new mongoose.Schema({
   profileImage: {
     type: String,
     default: ''
+  },
+  role: {
+    type: String,
+    enum: ['user', 'admin'],
+    default: 'user'
   }
 }, {
   timestamps: true
