@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Blogs from './pages/Blogs';
 import Hero from './components/Hero';
+import IntroductionVideo from './components/IntroductionVideo';
 import CommunityPulse from './components/CommunityPulse';
 import MemberSpotlight from './components/MemberSpotlight';
 import Contact from './components/Contact';
@@ -15,10 +16,14 @@ import Mission from './pages/Mission';
 import Members from './pages/Members';
 import ManageMembers from './pages/ManageMembers';
 import ManageBlogs from './pages/ManageBlogs';
+import ManageApplications from './pages/ManageApplications';
+import MyBlogs from './pages/MyBlogs';
+import ReviewBlogs from './pages/ReviewBlogs';
 
 const Home = () => (
   <>
     <Hero />
+    <IntroductionVideo />
     <CommunityPulse />
     <MemberSpotlight />
     <Contact />
@@ -58,6 +63,30 @@ function App() {
           element={
             <SignedIn>
               <ManageBlogs />
+            </SignedIn>
+          }
+        />
+        <Route
+          path="/manage-applications"
+          element={
+            <SignedIn>
+              <ManageApplications />
+            </SignedIn>
+          }
+        />
+        <Route
+          path="/my-blogs"
+          element={
+            <SignedIn>
+              <MyBlogs />
+            </SignedIn>
+          }
+        />
+        <Route
+          path="/review-blogs"
+          element={
+            <SignedIn>
+              <ReviewBlogs />
             </SignedIn>
           }
         />
