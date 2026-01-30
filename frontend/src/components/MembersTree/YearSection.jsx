@@ -10,10 +10,12 @@ const YearSection = ({ year, members }) => {
         const domainMap = {};
 
         members.forEach(member => {
-            const role = member.role.toLowerCase();
+            const role = member.role; // Now using the enum directly
             const domainName = member.domain || 'Other';
 
-            if (domainName === 'Club Leadership' || role.includes('president') || role.includes('vice president') || role === 'club lead' || role === 'club co-lead') {
+            // Club Leadership: SUPER_ADMIN, LEAD, CO_LEAD
+            // We also check for 'Club Leadership' domain just in case of legacy data or specific overrides
+            if (['SUPER_ADMIN', 'LEAD', 'CO_LEAD'].includes(role) || domainName === 'Club Leadership') {
                 clubLeadership.push(member);
             } else {
                 if (!domainMap[domainName]) {
@@ -23,15 +25,14 @@ const YearSection = ({ year, members }) => {
             }
         });
 
-        // Sort Club Leadership
+        // Sort Club Leadership: SUPER_ADMIN > LEAD > CO_LEAD
         clubLeadership.sort((a, b) => {
-            const getPriority = (role) => {
-                const r = role.toLowerCase();
-                if (r.includes('president') || (r.includes('lead') && !r.includes('co-lead'))) return 3;
-                if (r.includes('vice') || r.includes('co-lead')) return 2;
-                return 1;
+            const roleLevels = {
+                'SUPER_ADMIN': 3,
+                'LEAD': 2,
+                'CO_LEAD': 1
             };
-            return getPriority(b.role) - getPriority(a.role);
+            return (roleLevels[b.role] || 0) - (roleLevels[a.role] || 0);
         });
 
         const sortedDomains = Object.entries(domainMap).sort((a, b) => a[0].localeCompare(b[0]));
@@ -63,7 +64,7 @@ const YearSection = ({ year, members }) => {
 
                     <div className="flex-1 min-w-0 pr-4 bg-gradient-to-r from-transparent via-transparent to-transparent">
                         <h4 className="font-bold text-gray-900 text-lg truncate leading-tight">{member.name}</h4>
-                        <p className="text-sm font-bold text-orange-500 mb-0.5 truncate">{member.role}</p>
+                        <p className="text-sm font-bold text-orange-500 mb-0.5 truncate">{member.role.replace('_', ' ')}</p>
                         <p className="text-xs text-gray-400 font-medium truncate tracking-wide">{member.domain || 'Club Member'}</p>
                     </div>
 
@@ -80,15 +81,15 @@ const YearSection = ({ year, members }) => {
     const DomainSection = ({ title, members }) => {
         if (!members || members.length === 0) return null;
 
-        // Group by hierarchy within domain
-        const { leads, core, general } = members.reduce((acc, member) => {
-            const r = member.role.toLowerCase();
-            if (r.includes('advisor')) acc.leads.push(member);
-            else if (r.includes('lead') || r.includes('head')) acc.leads.push(member);
-            else if (r.includes('core')) acc.core.push(member);
-            else acc.general.push(member);
+        // Group by hierarchy within domain: DOMAIN_LEAD vs MEMBER
+        const { leads, members: generalMembers } = members.reduce((acc, member) => {
+            if (member.role === 'DOMAIN_LEAD') {
+                acc.leads.push(member);
+            } else {
+                acc.members.push(member);
+            }
             return acc;
-        }, { leads: [], core: [], general: [] });
+        }, { leads: [], members: [] });
 
         return (
             <motion.div
@@ -114,13 +115,13 @@ const YearSection = ({ year, members }) => {
 
                     <div className="relative bg-white/40 backdrop-blur-md rounded-[2.5rem] p-8 border border-white/60 shadow-2xl shadow-orange-500/10 transition-shadow duration-500 hover:shadow-orange-500/20">
                         <div className="space-y-12">
-                            {/* Leads */}
+                            {/* Domain Leads */}
                             {leads.length > 0 && (
                                 <div className="flex flex-col items-center">
                                     <div className="relative mb-8">
                                         <div className="absolute inset-0 bg-orange-400 blur-md opacity-20 rounded-full"></div>
                                         <span className="relative px-6 py-2 bg-gradient-to-r from-orange-500 to-orange-400 text-white rounded-full text-xs font-bold uppercase tracking-widest shadow-lg shadow-orange-500/30">
-                                            Leads & Advisors
+                                            Domain Leads
                                         </span>
                                     </div>
                                     <div className="flex flex-wrap justify-center gap-6 w-full">
@@ -133,26 +134,12 @@ const YearSection = ({ year, members }) => {
                                 </div>
                             )}
 
-                            {/* Core */}
-                            {core.length > 0 && (
+                            {/* General Members */}
+                            {generalMembers.length > 0 && (
                                 <div className="flex flex-col items-center pt-8 border-t border-orange-100/50">
-                                    <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-8 bg-white/50 px-4 py-1 rounded-full border border-gray-100">Core Team</h4>
+                                    <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-8 bg-white/50 px-4 py-1 rounded-full border border-gray-100">Team Members</h4>
                                     <div className="flex flex-wrap justify-center gap-6 w-full">
-                                        {core.map(member => (
-                                            <div key={member._id} className="w-full md:w-96">
-                                                <GlowCard member={member} />
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* General */}
-                            {general.length > 0 && (
-                                <div className="flex flex-col items-center pt-8 border-t border-orange-100/50">
-                                    <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-8 bg-white/50 px-4 py-1 rounded-full border border-gray-100">Members</h4>
-                                    <div className="flex flex-wrap justify-center gap-6 w-full">
-                                        {general.map(member => (
+                                        {generalMembers.map(member => (
                                             <div key={member._id} className="w-full md:w-96">
                                                 <GlowCard member={member} />
                                             </div>

@@ -64,13 +64,16 @@ const Members = () => {
                 // Sort Groups by year descending
                 groupedData.sort((a, b) => b.year.localeCompare(a.year));
 
-                // Sort members within each group: Lead > Co-Lead > Others
+                // Sort members within each group: SUPER_ADMIN > LEAD > CO_LEAD > DOMAIN_LEAD > MEMBER
                 const getRolePriority = (role) => {
-                    const r = role.toLowerCase();
-                    if (r.includes('founder')) return 3;
-                    if (r.includes('club lead') || (r.includes('lead') && !r.includes('co-lead'))) return 2;
-                    if (r.includes('co-lead')) return 1;
-                    return 0;
+                    const roleLevels = {
+                        'SUPER_ADMIN': 5,
+                        'LEAD': 4,
+                        'CO_LEAD': 3,
+                        'DOMAIN_LEAD': 2,
+                        'MEMBER': 1
+                    };
+                    return roleLevels[role] || 0;
                 };
 
                 groupedData.forEach(group => {

@@ -27,11 +27,17 @@ export const API_ENDPOINTS = {
     USER_PROFILE: '/api/users/profile',
     USER_REFRESH: '/api/users/refresh',
     USER_ALL: '/api/users/all',
+    USER_ELIGIBILITY: '/api/users/eligibility',
 
     // Blog endpoints
     BLOGS: '/api/blogs',
     BLOGS_MANAGE: '/api/blogs/manage',
+    BLOGS_MY: '/api/blogs/my-blogs',
+    BLOGS_PENDING: '/api/blogs/pending',
     BLOG_BY_ID: (id) => `/api/blogs/${id}`,
+    BLOG_APPROVE: (id) => `/api/blogs/${id}/approve`,
+    BLOG_REJECT: (id) => `/api/blogs/${id}/reject`,
+    BLOG_UPVOTE: (id) => `/api/blogs/${id}/upvote`,
 
     // Member endpoints
     MEMBERS: '/api/members',

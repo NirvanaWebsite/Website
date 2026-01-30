@@ -115,7 +115,7 @@ const MemberSpotlight = () => {
                                     <div className="w-28 h-28 rounded-full p-1 bg-gradient-to-br from-orange-400 to-red-500 mb-6 shadow-lg">
                                         <div className="w-full h-full rounded-full overflow-hidden bg-white border-4 border-white">
                                             {member.image ? (
-                                                <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
+                                                <img src={member.image} alt={member.name} className="w-full h-full object-cover object-top" />
                                             ) : (
                                                 <div className="w-full h-full flex items-center justify-center bg-gray-50 text-gray-300">
                                                     <User size={40} />

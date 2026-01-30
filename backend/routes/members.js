@@ -7,8 +7,21 @@ const { requireAdmin } = require('../middleware/auth');
 // Get all members
 router.get('/', async (req, res) => {
     try {
-        const members = await Member.find().sort({ year: -1, domain: 1, role: 1 });
-        res.json(members);
+        const members = await Member.find()
+            .populate('userId', 'firstName lastName email profileImage')
+            .sort({ year: -1, domain: 1, role: 1 });
+
+        // Map members to include profileImage from User if member.image is empty
+        const membersWithImages = members.map(member => {
+            const memberObj = member.toObject();
+            // Use Google profile image if member doesn't have a custom image
+            if (!memberObj.image && memberObj.userId?.profileImage) {
+                memberObj.image = memberObj.userId.profileImage;
+            }
+            return memberObj;
+        });
+
+        res.json(membersWithImages);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
