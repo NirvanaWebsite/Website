@@ -367,4 +367,48 @@ router.get('/all', requireAuth(), async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /api/users/eligibility:
+ *   get:
+ *     summary: Check if user is eligible to apply for team membership
+ *     description: Checks if user has @iiits.in email and is not already a member
+ *     tags: [Users]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Eligibility status retrieved successfully
+ */
+router.get('/eligibility', requireAuth(), async (req, res) => {
+  try {
+    const auth = req.auth();
+    const { userId } = auth;
+
+    const user = await User.findOne({ clerkId: userId });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    const eligible = user.isIIITSEmail && !user.memberId;
+
+    res.json({
+      success: true,
+      eligible,
+      isIIITSEmail: user.isIIITSEmail,
+      isMember: !!user.memberId,
+      currentRole: user.role,
+      roleLevel: user.roleLevel
+    });
+  } catch (error) {
+    console.error('Error checking eligibility:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
 module.exports = router;
+

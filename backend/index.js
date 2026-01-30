@@ -15,6 +15,7 @@ const errorHandler = require('./middleware/errorHandler');
 const userRoutes = require('./routes/users');
 const blogRoutes = require('./routes/blogs');
 const memberRoutes = require('./routes/members');
+const applicationRoutes = require('./routes/applications');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -104,6 +105,7 @@ app.get('/api/health', (req, res) => {
 app.use('/api/users', userRoutes);
 app.use('/api/blogs', blogRoutes);
 app.use('/api/members', memberRoutes);
+app.use('/api/applications', applicationRoutes);
 
 /**
  * @swagger
