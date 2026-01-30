@@ -32,6 +32,38 @@ const blogSchema = new mongoose.Schema({
         unique: true,
         required: true
     },
+
+    // Review & Approval System
+    status: {
+        type: String,
+        enum: ['PENDING', 'APPROVED', 'REJECTED'],
+        default: 'PENDING'
+    },
+    reviewedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        default: null
+    },
+    reviewedAt: {
+        type: Date,
+        default: null
+    },
+    rejectionReason: {
+        type: String,
+        default: ''
+    },
+
+    // Upvote System
+    upvotes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    upvoteCount: {
+        type: Number,
+        default: 0
+    },
+
+    // Legacy field - kept for backward compatibility
     isPublished: {
         type: Boolean,
         default: true

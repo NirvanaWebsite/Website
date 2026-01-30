@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Edit, Trash2, X, Search, Save, ArrowLeft, Eye, EyeOff } from 'lucide-react';
+import { Plus, Edit, Trash2, X, Search, Save, ArrowLeft, Eye, EyeOff, CheckCircle, XCircle, Clock } from 'lucide-react';
 import { useUser, useAuth } from '@clerk/clerk-react';
 import { useNavigate } from 'react-router-dom';
 import { getApiUrl, API_ENDPOINTS } from '../config/api';
@@ -43,10 +43,12 @@ const ManageBlogs = () => {
                 });
                 const userData = await userRes.json();
 
-                if (userData.success && userData.user.role === 'admin') {
+                // Check if user is admin (SUPER_ADMIN, LEAD, or CO_LEAD) or has isAdmin flag
+                const adminRoles = ['SUPER_ADMIN', 'LEAD', 'CO_LEAD'];
+                if (userData.success && (userData.user.isAdmin || adminRoles.includes(userData.user.role))) {
                     setIsAdmin(true);
                 } else {
-                    console.warn('User is access denied. Role:', userData.user?.role);
+                    console.warn('Access denied. Role:', userData.user?.role, 'isAdmin:', userData.user?.isAdmin);
                     navigate('/blogs');
                 }
             } catch (error) {
@@ -176,6 +178,45 @@ const ManageBlogs = () => {
         }
     };
 
+    const handleApprove = async (id) => {
+        if (!window.confirm('Approve this blog for publication?')) return;
+
+        try {
+            const token = await getToken();
+            await fetch(getApiUrl(API_ENDPOINTS.BLOG_APPROVE(id)), {
+                method: 'PUT',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            alert('Blog approved successfully!');
+            fetchBlogs();
+        } catch (error) {
+            console.error('Error approving blog:', error);
+            alert('Failed to approve blog');
+        }
+    };
+
+    const handleReject = async (id) => {
+        const reason = prompt('Enter rejection reason (optional):');
+        if (reason === null) return; // User cancelled
+
+        try {
+            const token = await getToken();
+            await fetch(getApiUrl(API_ENDPOINTS.BLOG_REJECT(id)), {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ reason })
+            });
+            alert('Blog rejected');
+            fetchBlogs();
+        } catch (error) {
+            console.error('Error rejecting blog:', error);
+            alert('Failed to reject blog');
+        }
+    };
+
     const filteredBlogs = blogs.filter(blog =>
         blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         blog.summary.toLowerCase().includes(searchTerm.toLowerCase())
@@ -239,13 +280,19 @@ const ManageBlogs = () => {
                                             <div className="text-xs text-gray-500 line-clamp-1 max-w-xs">{blog.summary}</div>
                                         </td>
                                         <td className="px-6 py-4">
-                                            {blog.isPublished ? (
-                                                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                    <Eye size={12} /> Published
+                                            {blog.status === 'PENDING' && (
+                                                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                                    <Clock size={12} /> Pending Review
                                                 </span>
-                                            ) : (
-                                                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                                                    <EyeOff size={12} /> Draft
+                                            )}
+                                            {blog.status === 'APPROVED' && (
+                                                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                    <CheckCircle size={12} /> Approved
+                                                </span>
+                                            )}
+                                            {blog.status === 'REJECTED' && (
+                                                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                                    <XCircle size={12} /> Rejected
                                                 </span>
                                             )}
                                         </td>
@@ -257,6 +304,24 @@ const ManageBlogs = () => {
                                         </td>
                                         <td className="px-6 py-4 text-right">
                                             <div className="flex items-center justify-end gap-2">
+                                                {blog.status === 'PENDING' && (
+                                                    <>
+                                                        <button
+                                                            onClick={() => handleApprove(blog._id)}
+                                                            className="p-2 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                                                            title="Approve"
+                                                        >
+                                                            <CheckCircle size={18} />
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleReject(blog._id)}
+                                                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                            title="Reject"
+                                                        >
+                                                            <XCircle size={18} />
+                                                        </button>
+                                                    </>
+                                                )}
                                                 <button
                                                     onClick={() => openModal(blog)}
                                                     className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"

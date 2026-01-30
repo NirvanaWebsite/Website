@@ -1,18 +1,33 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Clock, User, Calendar, Tag } from 'lucide-react';
+import { ArrowLeft, Clock, User, Calendar, Tag, Heart } from 'lucide-react';
+import { useAuth } from '@clerk/clerk-react';
 import ReactMarkdown from 'react-markdown';
 import { getApiUrl, API_ENDPOINTS } from '../config/api';
 
 const BlogDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+    const { getToken, userId } = useAuth();
     const [blog, setBlog] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [currentUserId, setCurrentUserId] = useState(null);
 
     useEffect(() => {
         const fetchBlog = async () => {
             try {
+                // Fetch user ID if logged in
+                if (userId) {
+                    const token = await getToken();
+                    const userRes = await fetch(getApiUrl(API_ENDPOINTS.USER_PROFILE), {
+                        headers: { Authorization: `Bearer ${token}` }
+                    });
+                    const userData = await userRes.json();
+                    if (userData.success) {
+                        setCurrentUserId(userData.user.id || userData.user._id);
+                    }
+                }
+
                 const res = await fetch(getApiUrl(API_ENDPOINTS.BLOG_BY_ID(id)));
                 const data = await res.json();
                 if (data.success) {
@@ -26,7 +41,46 @@ const BlogDetail = () => {
         };
 
         fetchBlog();
-    }, [id]);
+    }, [id, userId, getToken]);
+
+    const handleUpvote = async () => {
+        if (!userId) {
+            alert('Please sign in to upvote this blog');
+            return;
+        }
+
+        try {
+            const token = await getToken();
+            const response = await fetch(getApiUrl(API_ENDPOINTS.BLOG_UPVOTE(blog._id)), {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                // Update local state
+                let newUpvotes;
+                if (data.upvoted) {
+                    // Add upvote - store as object to match populated structure
+                    newUpvotes = [...(blog.upvotes || []), { _id: currentUserId }];
+                } else {
+                    // Remove upvote
+                    newUpvotes = (blog.upvotes || []).filter(upvote => {
+                        const upvoteId = typeof upvote === 'string' ? upvote : upvote._id;
+                        return upvoteId !== currentUserId;
+                    });
+                }
+
+                setBlog({
+                    ...blog,
+                    upvotes: newUpvotes,
+                    upvoteCount: data.upvoteCount
+                });
+            }
+        } catch (error) {
+            console.error('Error upvoting blog:', error);
+        }
+    };
 
     if (loading) {
         return (
@@ -127,6 +181,33 @@ const BlogDetail = () => {
                                     <Tag size={12} /> {tag}
                                 </span>
                             ))}
+                        </div>
+
+                        {/* Upvote Button */}
+                        <div className="mb-8 flex justify-center">
+                            <button
+                                onClick={handleUpvote}
+                                className={`flex items-center gap-3 px-6 py-3 rounded-full transition-all shadow-md hover:shadow-lg ${blog.upvotes?.some(upvote => {
+                                    if (!upvote) return false;
+                                    const upvoteId = upvote._id || upvote;
+                                    return String(upvoteId) === String(currentUserId);
+                                })
+                                    ? 'bg-red-500 text-white hover:bg-red-600'
+                                    : 'bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200'
+                                    }`}
+                            >
+                                <Heart
+                                    size={24}
+                                    fill={blog.upvotes?.some(upvote => {
+                                        if (!upvote) return false;
+                                        const upvoteId = upvote._id || upvote;
+                                        return String(upvoteId) === String(currentUserId);
+                                    }) ? 'currentColor' : 'none'}
+                                />
+                                <span className="font-semibold text-lg">
+                                    {blog.upvoteCount || 0} {blog.upvoteCount === 1 ? 'Upvote' : 'Upvotes'}
+                                </span>
+                            </button>
                         </div>
 
                         <div className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-a:text-primary hover:prose-a:text-orange-700 prose-img:rounded-xl">

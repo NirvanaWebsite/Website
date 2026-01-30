@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth, useUser } from '@clerk/clerk-react';
-import { Clock, User, Settings } from 'lucide-react';
+import { Clock, User, Settings, Heart } from 'lucide-react';
 import { getApiUrl, API_ENDPOINTS } from '../config/api';
 
 const Blogs = () => {
@@ -11,6 +11,7 @@ const Blogs = () => {
     const [blogs, setBlogs] = useState([]);
     const [isAdmin, setIsAdmin] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [currentUserId, setCurrentUserId] = useState(null);
 
     // Fetch blogs and user role
     useEffect(() => {
@@ -25,10 +26,12 @@ const Blogs = () => {
                     });
                     const userData = await userRes.json();
                     console.log('User Data Fetch:', userData); // DEBUG
-                    if (userData.success && userData.user.role === 'admin') {
-                        setIsAdmin(true);
-                    } else {
-                        console.log('User is not admin. Role:', userData.user?.role); // DEBUG
+                    if (userData.success) {
+                        setCurrentUserId(userData.user.id || userData.user._id);
+                        const adminRoles = ['SUPER_ADMIN', 'LEAD', 'CO_LEAD'];
+                        if (userData.user.isAdmin || adminRoles.includes(userData.user.role)) {
+                            setIsAdmin(true);
+                        }
                     }
                 }
 
@@ -48,6 +51,51 @@ const Blogs = () => {
         fetchData();
     }, [getToken, userId]);
 
+    const handleUpvote = async (e, blogId) => {
+        e.stopPropagation(); // Prevent navigation to blog detail
+
+        if (!userId) {
+            alert('Please sign in to upvote blogs');
+            return;
+        }
+
+        try {
+            const token = await getToken();
+            const response = await fetch(getApiUrl(API_ENDPOINTS.BLOG_UPVOTE(blogId)), {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                // Update local state
+                setBlogs(prevBlogs => prevBlogs.map(blog => {
+                    if (blog._id === blogId) {
+                        let newUpvotes;
+                        if (data.upvoted) {
+                            // Add upvote - store as object to match populated structure
+                            newUpvotes = [...(blog.upvotes || []), { _id: currentUserId }];
+                        } else {
+                            // Remove upvote
+                            newUpvotes = (blog.upvotes || []).filter(upvote => {
+                                const upvoteId = typeof upvote === 'string' ? upvote : upvote._id;
+                                return upvoteId !== currentUserId;
+                            });
+                        }
+
+                        return {
+                            ...blog,
+                            upvotes: newUpvotes,
+                            upvoteCount: data.upvoteCount
+                        };
+                    }
+                    return blog;
+                }));
+            }
+        } catch (error) {
+            console.error('Error upvoting blog:', error);
+        }
+    };
 
     if (loading) return <div className="flex justify-center items-center h-screen bg-gray-50">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
@@ -144,6 +192,28 @@ const Blogs = () => {
                                                 {blog.author ? `${blog.author.firstName} ${blog.author.lastName}` : 'Nirvana Team'}
                                             </span>
                                         </div>
+
+                                        <button
+                                            onClick={(e) => handleUpvote(e, blog._id)}
+                                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full transition-all ${blog.upvotes?.some(upvote => {
+                                                if (!upvote) return false;
+                                                const upvoteId = upvote._id || upvote;
+                                                return String(upvoteId) === String(currentUserId);
+                                            })
+                                                ? 'bg-red-100 text-red-600 hover:bg-red-200'
+                                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                                }`}
+                                        >
+                                            <Heart
+                                                size={16}
+                                                fill={blog.upvotes?.some(upvote => {
+                                                    if (!upvote) return false;
+                                                    const upvoteId = upvote._id || upvote;
+                                                    return String(upvoteId) === String(currentUserId);
+                                                }) ? 'currentColor' : 'none'}
+                                            />
+                                            <span className="text-sm font-medium">{blog.upvoteCount || 0}</span>
+                                        </button>
                                     </div>
                                 </div>
                             </article>
