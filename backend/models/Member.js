@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 
 const memberSchema = new mongoose.Schema({
-    // Link to User account
+    // Link to User account (optional for alumni/previous members)
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true,
-        unique: true
+        required: false,
+        unique: true,
+        sparse: true // Allows multiple null values
     },
 
     name: {
@@ -45,6 +46,15 @@ const memberSchema = new mongoose.Schema({
         required: true,
         enum: ['UG1', 'UG2', 'UG3', 'UG4'],
         trim: true
+    },
+
+    // Academic Year for team organization (e.g., "2025-26", "2024-25")
+    academicYear: {
+        type: String,
+        required: true,
+        match: /^\d{4}-\d{2}$/,
+        trim: true,
+        default: '2025-26'
     },
 
     // Branch (e.g., CSE, ECE)
@@ -86,8 +96,10 @@ const memberSchema = new mongoose.Schema({
 
 // Indexes for faster queries
 memberSchema.index({ userId: 1 });
-memberSchema.index({ domain: 1, year: 1 });
+memberSchema.index({ academicYear: 1, role: 1 });
+memberSchema.index({ academicYear: 1, domain: 1 });
 memberSchema.index({ role: 1 });
+memberSchema.index({ status: 1 });
 
 module.exports = mongoose.model('Member', memberSchema);
 
