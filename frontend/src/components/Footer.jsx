@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail, Heart, X, Check, ArrowRight } from 'lucide-react'
+import { Github, Linkedin, Mail, Heart, X, Check, ArrowRight, Instagram } from 'lucide-react'
 import { useState } from 'react'
 
 const Footer = () => {
@@ -25,7 +25,8 @@ const Footer = () => {
   const socialLinks = [
     { icon: Github, href: 'https://github.com/nirvanaclub-debug', label: 'GitHub' },
     { icon: Linkedin, href: 'https://www.linkedin.com/company/nirvana-iiits/', label: 'LinkedIn' },
-    { icon: Mail, href: 'mailto:nirvana.club@iiits.in', label: 'Email' }
+    { icon: Mail, href: 'mailto:nirvana.club@iiits.in', label: 'Email' },
+    { icon: Instagram, href: 'https://www.instagram.com/nirvana_iiits/', label: 'Instagram' }
   ]
 
   return (
