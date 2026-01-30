@@ -17,9 +17,11 @@ const Members = () => {
     });
     const [membersData, setMembersData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [selectedAcademicYear, setSelectedAcademicYear] = useState('2025-26');
+    const [academicYears, setAcademicYears] = useState([]);
 
     const { user, isLoaded } = useUser();
-    const { getToken } = useAuth(); // Assuming useAuth is imported or available; added import below if needed
+    const { getToken } = useAuth();
     const navigate = useNavigate();
     const [isAdmin, setIsAdmin] = useState(false);
 
@@ -32,7 +34,7 @@ const Members = () => {
                         headers: { Authorization: `Bearer ${token}` }
                     });
                     const userData = await userRes.json();
-                    if (userData.success && userData.user.role === 'admin') {
+                    if (userData.success && ['SUPER_ADMIN', 'LEAD', 'CO_LEAD'].includes(userData.user.role)) {
                         setIsAdmin(true);
                     }
                 } catch (e) {
@@ -43,6 +45,23 @@ const Members = () => {
         checkAdmin();
     }, [user]);
 
+    // Fetch academic years
+    useEffect(() => {
+        const fetchAcademicYears = async () => {
+            try {
+                const response = await fetch(getApiUrl('/api/members/academic-years'));
+                const data = await response.json();
+                if (data.success && data.academicYears.length > 0) {
+                    setAcademicYears(data.academicYears);
+                    setSelectedAcademicYear(data.academicYears[0]); // Set to most recent year
+                }
+            } catch (error) {
+                console.error('Error fetching academic years:', error);
+            }
+        };
+        fetchAcademicYears();
+    }, []);
+
     // Fetch members from API
     useEffect(() => {
         const fetchMembers = async () => {
@@ -50,21 +69,16 @@ const Members = () => {
                 const response = await fetch(getApiUrl(API_ENDPOINTS.MEMBERS));
                 const data = await response.json();
 
-                // Group flat list back into year structure for the UI
-                const groupedData = data.reduce((acc, member) => {
-                    const yearGroup = acc.find(g => g.year === member.year);
-                    if (yearGroup) {
-                        yearGroup.members.push(member);
-                    } else {
-                        acc.push({ year: member.year, members: [member] });
-                    }
-                    return acc;
-                }, []);
+                // Filter by selected academic year and group by role hierarchy
+                const filteredData = data.filter(m => m.academicYear === selectedAcademicYear);
 
-                // Sort Groups by year descending
-                groupedData.sort((a, b) => b.year.localeCompare(a.year));
+                // Group by role hierarchy for display
+                const groupedData = [{
+                    year: selectedAcademicYear,
+                    members: filteredData
+                }];
 
-                // Sort members within each group: SUPER_ADMIN > LEAD > CO_LEAD > DOMAIN_LEAD > MEMBER
+                // Sort members within group by role priority
                 const getRolePriority = (role) => {
                     const roleLevels = {
                         'SUPER_ADMIN': 5,
@@ -89,7 +103,7 @@ const Members = () => {
         };
 
         fetchMembers();
-    }, []);
+    }, [selectedAcademicYear]);
 
     // Extract unique values for filters
     const uniqueValues = useMemo(() => {
@@ -179,10 +193,31 @@ const Members = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.2 }}
-                        className="text-xl text-gray-600 max-w-2xl mx-auto"
+                        className="text-xl text-gray-600 max-w-2xl mx-auto mb-6"
                     >
                         Meet the diverse team of students behind Nirvana.
                     </motion.p>
+
+                    {/* Academic Year Selector */}
+                    {academicYears.length > 0 && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.3 }}
+                            className="flex justify-center items-center gap-3 mt-6"
+                        >
+                            <label className="text-sm font-medium text-gray-700">Academic Year:</label>
+                            <select
+                                value={selectedAcademicYear}
+                                onChange={(e) => setSelectedAcademicYear(e.target.value)}
+                                className="px-4 py-2 border-2 border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 bg-white text-gray-900 font-medium shadow-sm hover:border-orange-300 transition-colors"
+                            >
+                                {academicYears.map(year => (
+                                    <option key={year} value={year}>{year}</option>
+                                ))}
+                            </select>
+                        </motion.div>
+                    )}
                 </div>
 
                 <div className="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
