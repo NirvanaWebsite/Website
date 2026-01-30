@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@clerk/clerk-react';
+import API_URL from '../config/api';
 
 const ApplicationStatus = () => {
     const { getToken } = useAuth();
@@ -13,7 +14,7 @@ const ApplicationStatus = () => {
     const fetchApplication = async () => {
         try {
             const token = await getToken();
-            const response = await fetch('http://localhost:5000/api/applications/my-application', {
+            const response = await fetch(`${API_URL}/api/applications/my-application`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

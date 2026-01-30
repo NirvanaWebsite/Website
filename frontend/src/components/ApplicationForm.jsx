@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth, useUser } from '@clerk/clerk-react';
+import API_URL from '../config/api';
 
 const ApplicationForm = ({ onSuccess, onCancel }) => {
     const { getToken } = useAuth();
@@ -23,7 +24,7 @@ const ApplicationForm = ({ onSuccess, onCancel }) => {
 
         try {
             const token = await getToken();
-            const response = await fetch('http://localhost:5000/api/applications', {
+            const response = await fetch(`${API_URL}/api/applications`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,

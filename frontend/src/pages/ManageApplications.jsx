@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@clerk/clerk-react';
 import { useNavigate } from 'react-router-dom';
+import API_URL from '../config/api';
 
 const ManageApplications = () => {
     const { getToken } = useAuth();
@@ -19,7 +20,7 @@ const ManageApplications = () => {
             setLoading(true);
             const token = await getToken();
             const response = await fetch(
-                `http://localhost:5000/api/applications?status=${filter}`,
+                `${API_URL}/api/applications?status=${filter}`,
                 {
                     headers: { 'Authorization': `Bearer ${token}` }
                 }
@@ -41,7 +42,7 @@ const ManageApplications = () => {
             setActionLoading(appId);
             const token = await getToken();
             const response = await fetch(
-                `http://localhost:5000/api/applications/${appId}/approve`,
+                `${API_URL}/api/applications/${appId}/approve`,
                 {
                     method: 'PUT',
                     headers: {
@@ -71,7 +72,7 @@ const ManageApplications = () => {
             setActionLoading(appId);
             const token = await getToken();
             const response = await fetch(
-                `http://localhost:5000/api/applications/${appId}/reject`,
+                `${API_URL}/api/applications/${appId}/reject`,
                 {
                     method: 'PUT',
                     headers: {
