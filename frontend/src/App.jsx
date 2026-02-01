@@ -19,6 +19,8 @@ import ManageBlogs from './pages/ManageBlogs';
 import ManageApplications from './pages/ManageApplications';
 import MyBlogs from './pages/MyBlogs';
 import ReviewBlogs from './pages/ReviewBlogs';
+import BugReport from './pages/BugReport';
+import BugManagement from './pages/BugManagement';
 
 const Home = () => (
   <>
@@ -87,6 +89,22 @@ function App() {
           element={
             <SignedIn>
               <ReviewBlogs />
+            </SignedIn>
+          }
+        />
+        <Route
+          path="/report-bug"
+          element={
+            <SignedIn>
+              <BugReport />
+            </SignedIn>
+          }
+        />
+        <Route
+          path="/manage-bugs"
+          element={
+            <SignedIn>
+              <BugManagement />
             </SignedIn>
           }
         />
