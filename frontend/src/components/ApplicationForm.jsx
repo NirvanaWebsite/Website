@@ -10,7 +10,7 @@ const ApplicationForm = ({ onSuccess, onCancel }) => {
         applicantName: `${user?.firstName || ''} ${user?.lastName || ''}`.trim(),
         branch: '',
         year: 'UG1',
-        desiredRole: 'CORE_MEMBER',
+        desiredRole: 'MEMBER',
         domain: 'Leadership'
     });
 

@@ -107,9 +107,7 @@ router.post('/', requireAuth(), async (req, res) => {
             year: req.body.year,
             desiredRole: req.body.desiredRole,
             domain: req.body.domain,
-            motivation: req.body.motivation,
-            skills: req.body.skills,
-            portfolioLinks: req.body.portfolioLinks || ''
+
         });
 
         await application.save();
