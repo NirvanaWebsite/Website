@@ -21,6 +21,7 @@ import MyBlogs from './pages/MyBlogs';
 import ReviewBlogs from './pages/ReviewBlogs';
 import BugReport from './pages/BugReport';
 import BugManagement from './pages/BugManagement';
+import BugDetail from './pages/BugDetail';
 
 const Home = () => (
   <>
@@ -105,6 +106,14 @@ function App() {
           element={
             <SignedIn>
               <BugManagement />
+            </SignedIn>
+          }
+        />
+        <Route
+          path="/manage-bugs/:id"
+          element={
+            <SignedIn>
+              <BugDetail />
             </SignedIn>
           }
         />

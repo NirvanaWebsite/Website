@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@clerk/clerk-react';
+import { useNavigate } from 'react-router-dom';
 import API_URL from '../config/api';
 
 const BugManagement = () => {
     const { getToken } = useAuth();
+    const navigate = useNavigate();
     const [bugs, setBugs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -163,8 +165,13 @@ const BugManagement = () => {
                             {filteredBugs.map((bug) => (
                                 <tr key={bug._id}>
                                     <td className="px-6 py-4">
-                                        <div className="text-sm font-medium text-gray-900">{bug.title}</div>
-                                        <div className="text-sm text-gray-500 truncate max-w-xs">{bug.description}</div>
+                                        <button
+                                            onClick={() => navigate(`/manage-bugs/${bug._id}`)}
+                                            className="text-left hover:opacity-80 transition-opacity"
+                                        >
+                                            <div className="text-sm font-medium text-gray-900 hover:text-orange-600">{bug.title}</div>
+                                            <div className="text-sm text-gray-500 truncate max-w-xs">{bug.description}</div>
+                                        </button>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <div className="flex items-center">

@@ -103,6 +103,47 @@ router.get('/', requireAuth(), requireBugManagementAccess, async (req, res) => {
 /**
  * @swagger
  * /api/bugs/{id}:
+ *   get:
+ *     summary: Get a single bug
+ *     description: Retrieve a specific bug by ID. Restricted to Admins and Technical Domain members.
+ *     tags: [Bugs]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Bug details
+ *       404:
+ *         description: Bug not found
+ */
+router.get('/:id', requireAuth(), requireBugManagementAccess, async (req, res) => {
+    try {
+        const bug = await Bug.findById(req.params.id)
+            .populate('reporter', 'firstName lastName email profileImage')
+            .populate('assignedTo', 'name image domain');
+
+        if (!bug) {
+            return res.status(404).json({ success: false, message: 'Bug not found' });
+        }
+
+        res.json({
+            success: true,
+            bug
+        });
+    } catch (error) {
+        console.error('Error fetching bug:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+/**
+ * @swagger
+ * /api/bugs/{id}:
  *   put:
  *     summary: Update bug status/priority
  *     description: Update a bug. Restricted to Admins and Technical Domain members.
