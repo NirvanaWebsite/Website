@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Member = require('../models/Member');
 
 /**
  * Middleware to check if user has one of the required roles
@@ -108,5 +109,48 @@ const canPromoteTo = (targetRole) => {
     };
 };
 
-module.exports = { requireRole, requireAdmin, requireMember, canPromoteTo };
+const requireBugManagementAccess = async (req, res, next) => {
+    try {
+        if (!req.auth || !req.auth.userId) {
+            return res.status(401).json({ success: false, message: 'Unauthorized' });
+        }
+
+        // Get user (if not already attached by previous middleware, though usually used standalone)
+        let user = req.user;
+        if (!user) {
+            user = await User.findOne({ clerkId: req.auth.userId });
+        }
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        // 1. Check high-level roles
+        const allowedRoles = ['SUPER_ADMIN', 'LEAD', 'CO_LEAD'];
+        if (allowedRoles.includes(user.role)) {
+            req.user = user;
+            return next();
+        }
+
+        // 2. Check if Member with Technical domain
+        if (user.memberId) {
+            const member = await Member.findById(user.memberId);
+            if (member && member.domain === 'Technical') {
+                req.user = user;
+                return next();
+            }
+        }
+
+        return res.status(403).json({
+            success: false,
+            message: 'Access denied. Requires Lead role or Technical Domain membership.'
+        });
+
+    } catch (error) {
+        console.error('Bug management auth error:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+};
+
+module.exports = { requireRole, requireAdmin, requireMember, canPromoteTo, requireBugManagementAccess };
 
