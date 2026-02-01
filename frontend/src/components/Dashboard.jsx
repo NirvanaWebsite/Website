@@ -97,6 +97,7 @@ const Dashboard = () => {
   }
 
   const roleBadge = backendUser?.role ? getRoleBadge(backendUser.role) : null
+  const isAdmin = backendUser?.role && ['SUPER_ADMIN', 'LEAD', 'CO_LEAD'].includes(backendUser.role);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-orange-50 to-pink-50">
@@ -109,7 +110,7 @@ const Dashboard = () => {
                 Welcome back, {user?.firstName}! 👋
               </h1>
               <p className="text-orange-100 text-lg">
-                {backendUser?.isAdmin
+                {isAdmin
                   ? '✨ Admin Dashboard - Manage your club with ease'
                   : '🧘 Your personal Nirvana Club space'}
               </p>
@@ -159,7 +160,7 @@ const Dashboard = () => {
                   <span className="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
                     📅 Joined {new Date(user?.createdAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
                   </span>
-                  {backendUser?.isAdmin && (
+                  {isAdmin && (
                     <span className="inline-flex items-center px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium">
                       🔑 Admin Access
                     </span>
@@ -170,7 +171,7 @@ const Dashboard = () => {
           </div>
 
           {/* Admin Panel with Enhanced Cards */}
-          {backendUser?.isAdmin && (
+          {isAdmin && (
             <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
               <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
                 <span className="mr-2">⚡</span> Admin Panel
@@ -223,12 +224,36 @@ const Dashboard = () => {
                     <div className="text-sm text-gray-600">Approve pending posts</div>
                   </div>
                 </button>
+
+                <button
+                  onClick={() => navigate('/report-bug')}
+                  className="group relative overflow-hidden p-6 border-2 border-pink-200 rounded-xl hover:border-pink-400 text-left transition-all hover:shadow-lg hover:-translate-y-1"
+                >
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-pink-100 to-transparent rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform"></div>
+                  <div className="relative">
+                    <div className="text-5xl mb-3">🐛</div>
+                    <div className="font-bold text-xl text-gray-900 mb-2">Report Bug</div>
+                    <div className="text-sm text-gray-600">Submit an issue</div>
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => navigate('/manage-bugs')}
+                  className="group relative overflow-hidden p-6 border-2 border-red-200 rounded-xl hover:border-red-400 text-left transition-all hover:shadow-lg hover:-translate-y-1"
+                >
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-red-100 to-transparent rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform"></div>
+                  <div className="relative">
+                    <div className="text-5xl mb-3">🛠️</div>
+                    <div className="font-bold text-xl text-gray-900 mb-2">Manage Bugs</div>
+                    <div className="text-sm text-gray-600">Track and resolve issues</div>
+                  </div>
+                </button>
               </div>
             </div>
           )}
 
           {/* Quick Links for Non-Admin Users */}
-          {!backendUser?.isAdmin && (
+          {!isAdmin && (
             <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
               <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
                 <span className="mr-2">🚀</span> Quick Links
@@ -236,40 +261,77 @@ const Dashboard = () => {
               <div className={`grid grid-cols-1 gap-4 ${!backendUser?.memberId && backendUser?.role === 'USER' && eligibility?.isIIITSEmail ? 'md:grid-cols-4' : 'md:grid-cols-3'}`}>
                 <button
                   onClick={() => navigate('/blogs')}
-                  className="group p-6 border-2 border-gray-200 rounded-xl hover:border-orange-400 text-left transition-all hover:shadow-md"
+                  className="group relative overflow-hidden p-6 border-2 border-indigo-200 rounded-xl hover:border-indigo-400 text-left transition-all hover:shadow-lg hover:-translate-y-1"
                 >
-                  <div className="text-4xl mb-2">📚</div>
-                  <div className="font-semibold text-lg text-gray-900">Read Blogs</div>
-                  <div className="text-sm text-gray-600">Explore our latest posts</div>
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-indigo-100 to-transparent rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform"></div>
+                  <div className="relative">
+                    <div className="text-4xl mb-2">📚</div>
+                    <div className="font-semibold text-lg text-gray-900">Read Blogs</div>
+                    <div className="text-sm text-gray-600">Explore our latest posts</div>
+                  </div>
                 </button>
 
                 <button
                   onClick={() => navigate('/members')}
-                  className="group p-6 border-2 border-gray-200 rounded-xl hover:border-orange-400 text-left transition-all hover:shadow-md"
+                  className="group relative overflow-hidden p-6 border-2 border-blue-200 rounded-xl hover:border-blue-400 text-left transition-all hover:shadow-lg hover:-translate-y-1"
                 >
-                  <div className="text-4xl mb-2">🌟</div>
-                  <div className="font-semibold text-lg text-gray-900">Team Members</div>
-                  <div className="text-sm text-gray-600">Meet the Nirvana team</div>
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-100 to-transparent rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform"></div>
+                  <div className="relative">
+                    <div className="text-4xl mb-2">🌟</div>
+                    <div className="font-semibold text-lg text-gray-900">Team Members</div>
+                    <div className="text-sm text-gray-600">Meet the Nirvana team</div>
+                  </div>
                 </button>
 
                 <button
                   onClick={() => navigate('/my-blogs')}
-                  className="group p-6 border-2 border-gray-200 rounded-xl hover:border-orange-400 text-left transition-all hover:shadow-md"
+                  className="group relative overflow-hidden p-6 border-2 border-emerald-200 rounded-xl hover:border-emerald-400 text-left transition-all hover:shadow-lg hover:-translate-y-1"
                 >
-                  <div className="text-4xl mb-2">✍️</div>
-                  <div className="font-semibold text-lg text-gray-900">Write a Blog</div>
-                  <div className="text-sm text-gray-600">Share your thoughts</div>
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-100 to-transparent rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform"></div>
+                  <div className="relative">
+                    <div className="text-4xl mb-2">✍️</div>
+                    <div className="font-semibold text-lg text-gray-900">Write a Blog</div>
+                    <div className="text-sm text-gray-600">Share your thoughts</div>
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => navigate('/report-bug')}
+                  className="group relative overflow-hidden p-6 border-2 border-rose-200 rounded-xl hover:border-rose-400 text-left transition-all hover:shadow-lg hover:-translate-y-1"
+                >
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-rose-100 to-transparent rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform"></div>
+                  <div className="relative">
+                    <div className="text-4xl mb-2">🐛</div>
+                    <div className="font-semibold text-lg text-gray-900">Report Bug</div>
+                    <div className="text-sm text-gray-600">Found an issue? Let us know</div>
+                  </div>
                 </button>
 
                 {/* Apply Button - Only for IIITS email users who aren't members */}
                 {!backendUser?.memberId && backendUser?.role === 'USER' && eligibility?.isIIITSEmail && (
                   <button
                     onClick={() => setShowApplicationForm(true)}
-                    className="group p-6 border-2 border-orange-300 bg-gradient-to-br from-orange-50 to-pink-50 rounded-xl hover:border-orange-500 text-left transition-all hover:shadow-lg"
+                    className="group relative overflow-hidden p-6 border-2 border-orange-300 bg-gradient-to-br from-orange-50 to-pink-50 rounded-xl hover:border-orange-500 text-left transition-all hover:shadow-lg hover:-translate-y-1"
                   >
-                    <div className="text-4xl mb-2">🎯</div>
-                    <div className="font-semibold text-lg text-orange-600">Apply for Team</div>
-                    <div className="text-sm text-orange-700">Join Nirvana Club</div>
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-orange-200 to-transparent rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform"></div>
+                    <div className="relative">
+                      <div className="text-4xl mb-2">🎯</div>
+                      <div className="font-semibold text-lg text-orange-600">Apply for Team</div>
+                      <div className="text-sm text-orange-700">Join Nirvana Club</div>
+                    </div>
+                  </button>
+
+                )}
+
+                {/* Manage Bugs for Technical Members (Non-Admin) */}
+                {backendUser?.domain === 'Technical' && !isAdmin && (
+                  <button
+                    onClick={() => navigate('/manage-bugs')}
+                    className="group p-6 border-2 border-red-200 rounded-xl hover:border-red-400 text-left transition-all hover:shadow-md"
+                  >
+                    <div className="text-4xl mb-2">🛠️</div>
+                    <div className="font-semibold text-lg text-gray-900">Manage Bugs</div>
+                    <div className="text-sm text-gray-600">Track and resolve issues</div>
                   </button>
                 )}
               </div>

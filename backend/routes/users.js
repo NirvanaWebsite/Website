@@ -2,6 +2,7 @@ const express = require('express');
 const { requireAuth } = require('@clerk/express');
 const router = express.Router();
 const User = require('../models/User');
+const Member = require('../models/Member');
 const { getClerkUserData } = require('../utils/clerkHelper');
 
 /**
@@ -91,6 +92,12 @@ router.get('/profile', requireAuth(), async (req, res) => {
       await user.save();
     }
 
+    let memberDomain = null;
+    if (user.memberId) {
+      const member = await Member.findById(user.memberId);
+      if (member) memberDomain = member.domain;
+    }
+
     res.json({
       success: true,
       user: {
@@ -101,6 +108,8 @@ router.get('/profile', requireAuth(), async (req, res) => {
         lastName: user.lastName,
         profileImage: user.profileImage,
         role: user.role, // Added role field
+        domain: memberDomain,
+        memberId: user.memberId, // Explicitly sending memberId for sanity
         createdAt: user.createdAt
       }
     });
