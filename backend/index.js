@@ -17,6 +17,7 @@ const blogRoutes = require('./routes/blogs');
 const memberRoutes = require('./routes/members');
 const applicationRoutes = require('./routes/applications');
 const bugRoutes = require('./routes/bugs');
+const eventRoutes = require('./routes/events');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -125,6 +126,7 @@ app.use('/api/blogs', blogRoutes);
 app.use('/api/members', memberRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/bugs', bugRoutes);
+app.use('/api/events', eventRoutes);
 
 /**
  * @swagger

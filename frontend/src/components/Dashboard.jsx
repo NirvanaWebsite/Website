@@ -248,6 +248,18 @@ const Dashboard = () => {
                     <div className="text-sm text-gray-600">Track and resolve issues</div>
                   </div>
                 </button>
+
+                <button
+                  onClick={() => navigate('/manage-events')}
+                  className="group relative overflow-hidden p-6 border-2 border-indigo-200 rounded-xl hover:border-indigo-400 text-left transition-all hover:shadow-lg hover:-translate-y-1"
+                >
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-indigo-100 to-transparent rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform"></div>
+                  <div className="relative">
+                    <div className="text-5xl mb-3">📅</div>
+                    <div className="font-bold text-xl text-gray-900 mb-2">Manage Events</div>
+                    <div className="text-sm text-gray-600">Create and organize events</div>
+                  </div>
+                </button>
               </div>
             </div>
           )}

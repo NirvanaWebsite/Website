@@ -22,6 +22,10 @@ import ReviewBlogs from './pages/ReviewBlogs';
 import BugReport from './pages/BugReport';
 import BugManagement from './pages/BugManagement';
 import BugDetail from './pages/BugDetail';
+import Events from './pages/Events';
+import EventDetail from './pages/EventDetail';
+import ManageEvents from './pages/ManageEvents';
+import CreateEvent from './pages/CreateEvent';
 
 const Home = () => (
   <>
@@ -114,6 +118,24 @@ function App() {
           element={
             <SignedIn>
               <BugDetail />
+            </SignedIn>
+          }
+        />
+        <Route path="/events" element={<Events />} />
+        <Route path="/events/:id" element={<EventDetail />} />
+        <Route
+          path="/manage-events"
+          element={
+            <SignedIn>
+              <ManageEvents />
+            </SignedIn>
+          }
+        />
+        <Route
+          path="/create-event"
+          element={
+            <SignedIn>
+              <CreateEvent />
             </SignedIn>
           }
         />
